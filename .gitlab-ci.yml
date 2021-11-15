@@ -1,0 +1,19 @@
+image: node:14.17.6-buster
+
+cache:
+  paths:
+    - node_modules/
+
+build:
+  stage: build
+  script:
+    - sed -i "s#\${APP_VERSION}#$CI_COMMIT_REF_NAME#g" src/assets/app_info.js
+    - sed -i "s#\${APP_BUILD_DATE}#$CI_COMMIT_TIMESTAMP#g" src/assets/app_info.js
+    - cat src/assets/app_info.js
+    - yarn
+    - npm run build
+    - mv dist/ client-admin/
+  artifacts:
+    paths:
+      - client-admin
+    expire_in: 1 week
