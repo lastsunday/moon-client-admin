@@ -4476,6 +4476,11 @@ dot-prop@^5.1.0:
   dependencies:
     is-obj "^2.0.0"
 
+dotenv-expand@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.npmmirror.com/dotenv-expand/download/dotenv-expand-5.1.0.tgz#3fbaf020bfd794884072ea26b1e9791d45a629f0"
+  integrity sha1-P7rwIL/XlIhAcuomsel5HUWmKfA=
+
 dotenv@^10.0.0:
   version "10.0.0"
   resolved "https://registry.nlark.com/dotenv/download/dotenv-10.0.0.tgz?cache=0&sync_timestamp=1621638497427&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fdotenv%2Fdownload%2Fdotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
@@ -11390,13 +11395,16 @@ vite-plugin-compression@^0.3.3:
     debug "^4.3.2"
     fs-extra "^10.0.0"
 
-vite-plugin-html@^2.0.7:
-  version "2.0.7"
-  resolved "https://registry.nlark.com/vite-plugin-html/download/vite-plugin-html-2.0.7.tgz#55139ff8a843ba3b3d5cd48610ca6f6afdf7c23d"
-  integrity sha1-VROf+KhDujs9XNSGEMpvav33wj0=
+vite-plugin-html@^2.1.0:
+  version "2.1.1"
+  resolved "https://registry.npmmirror.com/vite-plugin-html/download/vite-plugin-html-2.1.1.tgz#014b44126a72d459cd460bd156800c225d124cbe"
+  integrity sha1-AUtEEmpy1FnNRgvRVoAMIl0STL4=
   dependencies:
+    "@rollup/pluginutils" "^4.1.1"
+    dotenv "^10.0.0"
+    dotenv-expand "^5.1.0"
     ejs "^3.1.6"
-    fs-extra "^9.1.0"
+    fs-extra "^10.0.0"
     html-minifier-terser "^5.1.1"
 
 vite-plugin-imagemin@^0.4.3:
