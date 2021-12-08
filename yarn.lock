@@ -11492,10 +11492,10 @@ vue-i18n@9.1.7:
     "@intlify/vue-devtools" "9.1.7"
     "@vue/devtools-api" "^6.0.0-beta.7"
 
-vue-json-pretty@^2.0.3:
-  version "2.0.4"
-  resolved "https://registry.nlark.com/vue-json-pretty/download/vue-json-pretty-2.0.4.tgz#2f6e7f59a84e0e1ef41dd33663c3e1d1a9734a29"
-  integrity sha1-L25/WahODh70HdM2Y8Ph0alzSik=
+vue-json-pretty@^1.8.1:
+  version "1.8.2"
+  resolved "https://registry.npmmirror.com/vue-json-pretty/download/vue-json-pretty-1.8.2.tgz#b85aa90faae261a54844412d978ce212d5c3437e"
+  integrity sha1-uFqpD6riYaVIREEtl4ziEtXDQ34=
 
 vue-router@^4.0.11:
   version "4.0.12"
