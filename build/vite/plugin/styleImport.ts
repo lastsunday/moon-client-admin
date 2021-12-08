@@ -1,11 +1,12 @@
 /**
  *  Introduces component library styles on demand.
  */
-
 import styleImport from 'vite-plugin-style-import';
 
 export function configStyleImportPlugin(isBuild: boolean) {
-  if (!isBuild) return [];
+  if (!isBuild) {
+    return [];
+  }
   const styleImportPlugin = styleImport({
     libs: [
       {

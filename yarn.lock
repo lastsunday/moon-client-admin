@@ -24,10 +24,10 @@
     "@types/lodash" "^4.14.165"
     lodash "^4.17.15"
 
-"@antfu/utils@^0.2.4":
-  version "0.2.4"
-  resolved "https://repo.huaweicloud.com/repository/npm/@antfu/utils/-/utils-0.2.4.tgz#c7d33fc6faa0d3a6fcc2555673f5e9b19c0fbc15"
-  integrity sha512-2bZNkVfL9IZESmvE26UKi8SzyvSoaIsGXDcnbHFMtmGMqUiB1fXpAJ1ijGf+tSqKRQ5yagck2U1Qk0p+705/kw==
+"@antfu/utils@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.npmmirror.com/@antfu/utils/download/@antfu/utils-0.3.0.tgz#6306c43b52a883bd8e973e3ed8dd64248418bcc4"
+  integrity sha1-YwbEO1Kog72Olz4+2N1kJIQYvMQ=
   dependencies:
     "@types/throttle-debounce" "^2.1.0"
 
@@ -1349,7 +1349,7 @@
   dependencies:
     cross-fetch "^3.1.4"
 
-"@iconify/json@^1.1.391":
+"@iconify/json@^1.1.392":
   version "1.1.440"
   resolved "https://registry.npmmirror.com/@iconify/json/download/@iconify/json-1.1.440.tgz#43517e23af154c68e288d2e13d50d00e3e01ff55"
   integrity sha512-WJ/bff2ARdIrDbG9JznaslJPQ8AkLEq1/lEA+eGEJJB1kZg4DtdcNnTLtxWdJTvVnlwxDrO5VpjTiEt0YcubZg==
@@ -1606,7 +1606,7 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@logicflow/core@^0.6.13", "@logicflow/core@^0.6.16":
+"@logicflow/core@^0.6.15", "@logicflow/core@^0.6.16":
   version "0.6.16"
   resolved "https://registry.npmmirror.com/@logicflow/core/download/@logicflow/core-0.6.16.tgz#1a64a573b2ee826578bbea12fa330d990dbc1e08"
   integrity sha1-GmSlc7LugmV4u+oS+jMNmQ28Hgg=
@@ -1615,7 +1615,7 @@
     mousetrap "^1.6.5"
     preact "^10.4.8"
 
-"@logicflow/extension@^0.6.13":
+"@logicflow/extension@^0.6.15":
   version "0.6.16"
   resolved "https://registry.npmmirror.com/@logicflow/extension/download/@logicflow/extension-0.6.16.tgz#971993ca06bbea2c6b67aa3a3624c4ba75861dc3"
   integrity sha1-lxmTyga76ixrZ6o6NiTEunWGHcM=
@@ -2145,7 +2145,7 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@typescript-eslint/eslint-plugin@^4.29.2":
+"@typescript-eslint/eslint-plugin@^4.29.3":
   version "4.33.0"
   resolved "https://registry.npmmirror.com/@typescript-eslint/eslint-plugin/download/@typescript-eslint/eslint-plugin-4.33.0.tgz#c24dc7c8069c7706bc40d99f6fa87edcb2005276"
   integrity sha1-wk3HyAacdwa8QNmfb6h+3LIAUnY=
@@ -2183,7 +2183,7 @@
     eslint-scope "^5.1.1"
     eslint-utils "^3.0.0"
 
-"@typescript-eslint/parser@^4.29.2":
+"@typescript-eslint/parser@^4.29.3":
   version "4.33.0"
   resolved "https://registry.npmmirror.com/@typescript-eslint/parser/download/@typescript-eslint/parser-4.33.0.tgz#dfe797570d9694e560528d18eecad86c8c744899"
   integrity sha1-3+eXVw2WlOVgUo0Y7srYbIx0SJk=
@@ -2502,27 +2502,27 @@
   dependencies:
     vue-demi "*"
 
-"@windicss/config@1.2.7":
-  version "1.2.7"
-  resolved "https://repo.huaweicloud.com/repository/npm/@windicss/config/-/config-1.2.7.tgz#c70bde7de272574f7a33eb9a1d7f80bdbffe48ba"
-  integrity sha512-XpH/dkXWk2LGygHzHBWWEW/yGcLqhpFFN2jo+zMeWZ1ggBzndQQzBHqHGQHcr6U6v3PoBuOz1prVWgUmQxn9eQ==
+"@windicss/config@1.5.4":
+  version "1.5.4"
+  resolved "https://registry.npmmirror.com/@windicss/config/download/@windicss/config-1.5.4.tgz#69b10fb02cfea1103a4ca9a65a738ef7d3734b29"
+  integrity sha512-muRPFulqh7nU3VrsPb5+k6ulNyiw8VGg62zAWRZIBfeCRXZb2gV1Q8a/tPn8X1T/+HTt4f/1bzFiusqMKscmlw==
   dependencies:
-    debug "^4.3.2"
-    jiti "^1.11.0"
-    windicss "^3.1.6"
+    debug "^4.3.3"
+    jiti "^1.12.9"
+    windicss "^3.2.1"
 
-"@windicss/plugin-utils@1.2.7":
-  version "1.2.7"
-  resolved "https://repo.huaweicloud.com/repository/npm/@windicss/plugin-utils/-/plugin-utils-1.2.7.tgz#aa2c571f66600ce2c916c9c47efe8eafb229908c"
-  integrity sha512-aNQhd1nEjkVsCHmzq0+4VGTmovOGGfPnH2hspH4YuDxMDhQ/99VrBdyk7irngWJjedjHB3+UYCSYWpY5a+2Hbg==
+"@windicss/plugin-utils@1.5.4":
+  version "1.5.4"
+  resolved "https://registry.npmmirror.com/@windicss/plugin-utils/download/@windicss/plugin-utils-1.5.4.tgz#a283b1fe040b9559542462c80bbf1db9fd2850e8"
+  integrity sha512-fS4y52OYB9rIzEUolIWIrrHYuaQfcqTaX3ISbFUiNbvNgH97JATjzB2iOnNqWNy6pH3M8RP0TqYQOOCCeanDoA==
   dependencies:
-    "@antfu/utils" "^0.2.4"
-    "@windicss/config" "1.2.7"
-    debug "^4.3.2"
+    "@antfu/utils" "^0.3.0"
+    "@windicss/config" "1.5.4"
+    debug "^4.3.3"
     fast-glob "^3.2.7"
     magic-string "^0.25.7"
     micromatch "^4.0.4"
-    windicss "^3.1.6"
+    windicss "^3.2.1"
 
 "@zxcvbn-ts/core@^1.0.0-beta.0":
   version "1.0.0-beta.0"
@@ -4205,6 +4205,13 @@ debug@^3.1.1, debug@^3.2.6:
   integrity sha1-clgLfpFF+zm2Z2+cXl+xALk0F5o=
   dependencies:
     ms "^2.1.1"
+
+debug@^4.3.3:
+  version "4.3.3"
+  resolved "https://registry.npmmirror.com/debug/download/debug-4.3.3.tgz#04266e0b70a98d4462e6e288e38259213332b664"
+  integrity sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==
+  dependencies:
+    ms "2.1.2"
 
 decamelize-keys@^1.1.0:
   version "1.1.0"
@@ -7390,10 +7397,10 @@ jest@^27.0.6:
     import-local "^3.0.2"
     jest-cli "^27.0.6"
 
-jiti@^1.11.0:
-  version "1.11.0"
-  resolved "https://repo.huaweicloud.com/repository/npm/jiti/-/jiti-1.11.0.tgz#64120a30d97b9bf37b8b032cf4564dfadc28984c"
-  integrity sha512-/2c7e61hxxTIN34UeHBB0LCJ5Tq64kgJDV7GR+++e8XRxCKRIKmB8tH6ww1W+Z6Kgd6By+C3RSCu1lXjbPT68A==
+jiti@^1.12.9:
+  version "1.12.9"
+  resolved "https://registry.npmmirror.com/jiti/download/jiti-1.12.9.tgz#2ce45b265cfc8dc91ebd70a5204807cf915291bc"
+  integrity sha1-LORbJlz8jckevXClIEgHz5FSkbw=
 
 jpegtran-bin@^5.0.0:
   version "5.0.2"
@@ -7613,6 +7620,11 @@ known-css-properties@^0.21.0:
   version "0.21.0"
   resolved "https://registry.nlark.com/known-css-properties/download/known-css-properties-0.21.0.tgz#15fbd0bbb83447f3ce09d8af247ed47c68ede80d"
   integrity sha1-FfvQu7g0R/POCdivJH7UfGjt6A0=
+
+kolorist@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.npmmirror.com/kolorist/download/kolorist-1.5.0.tgz#a06f7dd11d1b5fdb743d79c8acd4e1ecbcbd89b3"
+  integrity sha1-oG990R0bX9t0PXnIrNTh7Ly9ibM=
 
 less@^4.1.1:
   version "4.1.1"
@@ -9920,7 +9932,7 @@ rollup-plugin-visualizer@5.5.2:
     source-map "^0.7.3"
     yargs "^16.2.0"
 
-rollup@^2.38.5, rollup@^2.43.1, rollup@^2.56.2, rollup@^2.60.0:
+rollup@^2.38.5, rollup@^2.43.1, rollup@^2.56.3, rollup@^2.60.0:
   version "2.60.2"
   resolved "https://registry.npmmirror.com/rollup/download/rollup-2.60.2.tgz#3f45ace36a9b10b4297181831ea0719922513463"
   integrity sha512-1Bgjpq61sPjgoZzuiDSGvbI1tD91giZABgjCQBKM5aYLnzjq52GoDuWVwT/cm/MCxCMPU8gqQvkj8doQ5C8Oqw==
@@ -11542,15 +11554,15 @@ vite-plugin-theme@^0.8.1:
     esbuild-plugin-alias "^0.1.2"
     tinycolor2 "^1.4.2"
 
-vite-plugin-windicss@^1.2.7:
-  version "1.2.7"
-  resolved "https://repo.huaweicloud.com/repository/npm/vite-plugin-windicss/-/vite-plugin-windicss-1.2.7.tgz#92671ec795ab1a8a4e520aff8117ac14c04d312f"
-  integrity sha512-JgIGsH5HPaz3ghDRhhLeF8VZQMUE+R0jD9u8sbne5KdBBa208r0IuTcx73V7CPcmsu7KABG6rfLgST9ffVoiDA==
+vite-plugin-windicss@^1.2.8:
+  version "1.5.4"
+  resolved "https://registry.npmmirror.com/vite-plugin-windicss/download/vite-plugin-windicss-1.5.4.tgz#b3bda784e50a9b6603ff4c253614271ac300d9d3"
+  integrity sha512-bG2IERA9J50MGq1QEbGC/PjrkVIaq2b3LilCeidyIpmFV/4aR14/wGDe83SobF+8coIeJ+23S0uDK/fXX5X0pQ==
   dependencies:
-    "@windicss/plugin-utils" "1.2.7"
-    chalk "^4.1.1"
-    debug "^4.3.2"
-    windicss "^3.1.6"
+    "@windicss/plugin-utils" "1.5.4"
+    debug "^4.3.3"
+    kolorist "^1.5.0"
+    windicss "^3.2.1"
 
 vite@2.5.0:
   version "2.5.0"
@@ -11878,10 +11890,10 @@ which@^2.0.1:
   dependencies:
     isexe "^2.0.0"
 
-windicss@^3.1.6:
-  version "3.1.6"
-  resolved "https://repo.huaweicloud.com/repository/npm/windicss/-/windicss-3.1.6.tgz#237f24be8b38f90f451eedda166c46c25227c608"
-  integrity sha512-9/ShTPRs2pg/AJo4PtbgDv9p7BUgR52WqL7Gpr8VSO6LH8z4I/oKamUAlSXqyLsWD6yKS+xtxF3FRiHVJwYcuQ==
+windicss@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.npmmirror.com/windicss/download/windicss-3.2.1.tgz#bd0f7b9ebabba04ea8dfedcbb0263c2ef9591db4"
+  integrity sha1-vQ97nrq7oE6o3+3LsCY8LvlZHbQ=
 
 with@^7.0.0:
   version "7.0.2"

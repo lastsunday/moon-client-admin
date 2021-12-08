@@ -1,7 +1,6 @@
 /**
  * Zero-config PWA for Vite
  */
-
 import { VitePWA } from 'vite-plugin-pwa';
 
 export function configPwaConfig(env: ViteEnv) {

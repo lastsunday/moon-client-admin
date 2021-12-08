@@ -2,7 +2,6 @@
  * Used to package and output gzip. Note that this does not work properly in Vite, the specific reason is still being investigated
  */
 import type { Plugin } from 'vite';
-
 import compressPlugin from 'vite-plugin-compression';
 
 export function configCompressPlugin(
@@ -21,6 +20,7 @@ export function configCompressPlugin(
       })
     );
   }
+
   if (compressList.includes('brotli')) {
     plugins.push(
       compressPlugin({
