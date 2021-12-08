@@ -2092,6 +2092,13 @@
   resolved "https://registry.nlark.com/@types/svgo/download/@types/svgo-2.3.1.tgz#85442587bc72bbfb92f3721020e28d678b8744ec"
   integrity sha1-hUQlh7xyu/uS83IQIOKNZ4uHROw=
 
+"@types/svgo@^2.4.2":
+  version "2.6.0"
+  resolved "https://registry.npmmirror.com/@types/svgo/download/@types/svgo-2.6.0.tgz#f0c50eed286422f63b4e3346d8a309b0ea67d58a"
+  integrity sha1-8MUO7ShkIvY7TjNG2KMJsOpn1Yo=
+  dependencies:
+    "@types/node" "*"
+
 "@types/tern@*":
   version "0.23.4"
   resolved "https://registry.nlark.com/@types/tern/download/@types/tern-0.23.4.tgz#03926eb13dbeaf3ae0d390caf706b2643a0127fb"
@@ -4686,10 +4693,10 @@ es-abstract@^1.19.1:
     string.prototype.trimstart "^1.0.4"
     unbox-primitive "^1.0.1"
 
-es-module-lexer@^0.7.1:
-  version "0.7.1"
-  resolved "https://repo.huaweicloud.com/repository/npm/es-module-lexer/-/es-module-lexer-0.7.1.tgz#c2c8e0f46f2df06274cdaf0dd3f3b33e0a0b267d"
-  integrity sha512-MgtWFl5No+4S3TmhDmCz2ObFGm6lEpTnzbQi+Dd+pw4mlTIZTmM2iAs5gRlmx5zS9luzobCSBSI90JM/1/JgOw==
+es-module-lexer@^0.9.3:
+  version "0.9.3"
+  resolved "https://registry.npmmirror.com/es-module-lexer/download/es-module-lexer-0.9.3.tgz#6f13db00cc38417137daf74366f535c8eb438f19"
+  integrity sha1-bxPbAMw4QXE32vdDZvU1yOtDjxk=
 
 es-to-primitive@^1.2.1:
   version "1.2.1"
@@ -11412,10 +11419,10 @@ vfile@^4.0.0:
     unist-util-stringify-position "^2.0.0"
     vfile-message "^2.0.0"
 
-vite-plugin-compression@^0.3.3:
-  version "0.3.3"
-  resolved "https://repo.huaweicloud.com/repository/npm/vite-plugin-compression/-/vite-plugin-compression-0.3.3.tgz#0ce6a0a793b79cfbf3a17b4390973c7ab6e41ace"
-  integrity sha512-BuI4jKk/D7snlRYNz/RhKXLWXseT5cB1aK7zhNRcXm/Tjf2P6wwll1JzPsUWuCvzvI6msAQ2wMRPdGb3QWGXSw==
+vite-plugin-compression@^0.3.5:
+  version "0.3.6"
+  resolved "https://registry.npmmirror.com/vite-plugin-compression/download/vite-plugin-compression-0.3.6.tgz#85e3ce5047ae6747bc3952177177a852fac901be"
+  integrity sha512-aSskQCJsP3VQ8PsnY+vO7UfD5qoFMOEuzg0PG2E9Zqyx+ARmc3wr9KCgOFraZOFW1Y4UAa5BR0SMTjoxHRMJoQ==
   dependencies:
     chalk "^4.1.2"
     debug "^4.3.2"
@@ -11433,10 +11440,10 @@ vite-plugin-html@^2.1.0:
     fs-extra "^10.0.0"
     html-minifier-terser "^5.1.1"
 
-vite-plugin-imagemin@^0.4.3:
-  version "0.4.3"
-  resolved "https://repo.huaweicloud.com/repository/npm/vite-plugin-imagemin/-/vite-plugin-imagemin-0.4.3.tgz#9eab0b50137b10f105ab803be8a19eca4208f212"
-  integrity sha512-NIMFOiRT1t8Hc4o8KnilJSloUsPDQz77jITUU/eF9qEFjm3JvEes4NSW4egO54IOgKcj9jyXQsX5C2cKTbIE0A==
+vite-plugin-imagemin@^0.4.5:
+  version "0.4.6"
+  resolved "https://registry.npmmirror.com/vite-plugin-imagemin/download/vite-plugin-imagemin-0.4.6.tgz#f551dacb0529ca327a80d2f5830b5cc0ccb5677a"
+  integrity sha1-9VHaywUpyjJ6gNL1gwtcwMy1Z3o=
   dependencies:
     "@types/imagemin" "^7.0.1"
     "@types/imagemin-gifsicle" "^7.0.1"
@@ -11445,10 +11452,10 @@ vite-plugin-imagemin@^0.4.3:
     "@types/imagemin-optipng" "^5.2.1"
     "@types/imagemin-svgo" "^9.0.1"
     "@types/imagemin-webp" "^5.1.2"
-    "@types/svgo" "^2.3.1"
+    "@types/svgo" "^2.4.2"
     chalk "^4.1.2"
     debug "^4.3.2"
-    esbuild "^0.11.23"
+    esbuild "^0.13.2"
     fs-extra "^10.0.0"
     imagemin "^7.0.1"
     imagemin-gifsicle "^7.0.0"
@@ -11459,7 +11466,7 @@ vite-plugin-imagemin@^0.4.3:
     imagemin-svgo "^9.0.0"
     imagemin-webp "^6.0.0"
 
-vite-plugin-mock@^2.9.5:
+vite-plugin-mock@^2.9.6:
   version "2.9.6"
   resolved "https://registry.npmmirror.com/vite-plugin-mock/download/vite-plugin-mock-2.9.6.tgz#04dd23de6baa052faa5b9ad317514c90d6205e25"
   integrity sha1-BN0j3muqBS+qW5rTF1FMkNYgXiU=
@@ -11496,15 +11503,16 @@ vite-plugin-pwa@^0.11.0:
     workbox-build "^6.4.0"
     workbox-window "^6.4.0"
 
-vite-plugin-style-import@^1.1.1:
-  version "1.1.1"
-  resolved "https://repo.huaweicloud.com/repository/npm/vite-plugin-style-import/-/vite-plugin-style-import-1.1.1.tgz#7ccebb042bce94eeb2f695c7339354a2dac48c25"
-  integrity sha512-29NnvfAwCqS5zSg+bComXSmCgx3MmKJ/dPxWC/wa/yjG1gm7i/BDKrshiaGRXpIbMSyQco5KGRKhrUIW3Tr+nw==
+vite-plugin-style-import@^1.2.1:
+  version "1.4.0"
+  resolved "https://registry.npmmirror.com/vite-plugin-style-import/download/vite-plugin-style-import-1.4.0.tgz#f05fb7f4b79b13ac98f9bc23d9674f0755431bed"
+  integrity sha512-EGAx0zVGUkwAwvDaC66zxgzXyHE0CwAXp4O1xGKnpMcrDT9L1nlojiCjjLRQzL8C3zwY1jn9ilq+m0VABKiiLg==
   dependencies:
     "@rollup/pluginutils" "^4.1.1"
     change-case "^4.1.2"
     debug "^4.3.2"
-    es-module-lexer "^0.7.1"
+    es-module-lexer "^0.9.3"
+    fs-extra "^10.0.0"
     magic-string "^0.25.7"
 
 vite-plugin-svg-icons@^1.0.4:
