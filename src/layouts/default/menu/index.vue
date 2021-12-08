@@ -48,7 +48,7 @@
       const { menusRef } = useSplitMenu(toRef(props, 'splitType'));
       const { getIsMobile } = useAppInject();
       const getComputedMenuMode = computed(() =>
-        unref(getIsMobile) ? MenuModeEnum.INLINE : props.menuMode || unref(getMenuMode)
+        unref(getIsMobile) ? MenuModeEnum.INLINE : props.menuMode || unref(getMenuMode),
       );
       const getComputedMenuTheme = computed(() => props.theme || unref(getMenuTheme));
       const getIsShowLogo = computed(() => unref(getShowLogo) && unref(getIsSidebarType));

@@ -9,7 +9,7 @@ import { findNodeAll } from '/@/utils/helper/treeHelper';
 export function useRowSelection(
   propsRef: ComputedRef<BasicTableProps>,
   tableData: Ref<Recordable[]>,
-  emit: EmitType
+  emit: EmitType,
 ) {
   const selectedRowKeysRef = ref<string[]>([]);
   const selectedRowRef = ref<Recordable[]>([]);
@@ -36,7 +36,7 @@ export function useRowSelection(
     () => unref(propsRef).rowSelection?.selectedRowKeys,
     (v: string[]) => {
       setSelectedRowKeys(v);
-    }
+    },
   );
 
   watch(
@@ -54,7 +54,7 @@ export function useRowSelection(
         });
       });
     },
-    { deep: true }
+    { deep: true },
   );
 
   const getAutoCreateKey = computed(() => {
@@ -73,7 +73,7 @@ export function useRowSelection(
       (item) => rowKeys.includes(item[unref(getRowKey) as string]),
       {
         children: propsRef.value.childrenColumnName ?? 'children',
-      }
+      },
     );
     const trueSelectedRows: any[] = [];
     rowKeys.forEach((key: string) => {

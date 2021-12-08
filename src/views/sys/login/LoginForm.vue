@@ -162,6 +162,7 @@
           account: data.account,
           verifyCode: formData.verifyCode,
           uuid: formData.uuid,
+          mode: 'none', //不要默认的错误提示
         })
       );
       if (userInfo) {

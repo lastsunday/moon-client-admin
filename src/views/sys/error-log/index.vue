@@ -64,7 +64,7 @@
     },
     {
       immediate: true,
-    }
+    },
   );
   const { createMessage } = useMessage();
   if (import.meta.env.DEV) {

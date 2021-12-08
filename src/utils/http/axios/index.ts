@@ -82,7 +82,7 @@ const transform: AxiosTransform = {
         if (joinParamsToUrl) {
           config.url = setObjToUrlParams(
             config.url as string,
-            Object.assign({}, config.params, config.data)
+            Object.assign({}, config.params, config.data),
           );
         }
       } else {
@@ -192,8 +192,8 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           withToken: true,
         },
       },
-      opt || {}
-    )
+      opt || {},
+    ),
   );
 }
 export const defHttp = createAxios();

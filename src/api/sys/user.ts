@@ -40,7 +40,7 @@ export function getUserOnlineList(params: UserOnlineListParams, mode: ErrorMessa
     },
     {
       errorMessageMode: mode,
-    }
+    },
   );
 }
 
