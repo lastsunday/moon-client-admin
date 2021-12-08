@@ -92,8 +92,8 @@
     </div> -->
   </Form>
 </template>
-<script lang="ts">
-  import { defineComponent, reactive, ref, toRaw, unref, computed } from 'vue';
+<script lang="ts" setup>
+  import { reactive, ref, toRaw, unref, computed } from 'vue';
 
   import { Form, Input, Row, Col, Button } from 'ant-design-vue';
   import LoginFormTitle from './LoginFormTitle.vue';
@@ -107,118 +107,62 @@
   import { useDesign } from '/@/hooks/web/useDesign';
   import { getCaptcha } from '/@/api/sys/captcha';
 
-  export default defineComponent({
-    name: 'LoginForm',
-    components: {
-      [Col.name]: Col,
-      [Row.name]: Row,
-      Button,
-      Form,
-      FormItem: Form.Item,
-      Input,
-      LoginFormTitle,
-      InputPassword: Input.Password,
-    },
-    setup() {
-      const { t } = useI18n();
-      const { notification } = useMessage();
-      const { prefixCls } = useDesign('login');
-      const userStore = useUserStore();
+  const ACol = Col;
+  const ARow = Row;
+  const FormItem = Form.Item;
+  const InputPassword = Input.Password;
+  const { t } = useI18n();
+  const { notification, createErrorModal } = useMessage();
+  const { prefixCls } = useDesign('login');
+  const userStore = useUserStore();
 
-      const { setLoginState, getLoginState } = useLoginState();
-      const { getFormRules } = useFormRules();
+  const { setLoginState, getLoginState } = useLoginState();
+  const { getFormRules } = useFormRules();
 
-      const formRef = ref<any>(null);
-      const globSetting = useGlobSetting();
-      const loading = ref(false);
-      const rememberMe = ref(false);
-      const captchaEnable = globSetting.loginCaptchaCheckingEnable;
-      let codeUrlRef = ref<string>('');
-      if (captchaEnable) {
-        handleCaptcha();
-      } else {
-        //skip
-      }
-      const formData = reactive({
-        account: globSetting.defaultAdminAccount,
-        password: globSetting.defaultAdminPassword,
-        verifyCode: '',
-        uuid: '',
-      });
+  const formRef = ref();
+  const loading = ref(false);
+  const rememberMe = ref(false);
 
-      const formState = reactive({
-        loading: false,
-      });
-
-      const { validForm } = useFormValid(formRef);
-
-      //onKeyStroke('Enter', handleLogin);
-
-      const getShow = computed(() => unref(getLoginState) === LoginStateEnum.LOGIN);
-
-      async function handleLogin() {
-        const data = await validForm();
-        if (!data) return;
-        formState.loading = true;
-        try {
-          const form = unref(formRef);
-          if (!form) return;
-          const data = await form.validate();
-          const userInfo = await userStore.login(
-            toRaw({
-              password: data.password,
-              account: data.account,
-              verifyCode: formData.verifyCode,
-              uuid: formData.uuid,
-            })
-          );
-          if (userInfo) {
-            notification.success({
-              message: t('sys.login.loginSuccessTitle'),
-              description: `${t('sys.login.loginSuccessDesc')}: ${userInfo.name}`,
-              duration: 3,
-            });
-          } else {
-            if (captchaEnable) {
-              // userStore.login如果出现异常，userInfo返回null。这边需要刷新验证码
-              handleCaptcha();
-            } else {
-              //skip
-            }
-          }
-        } catch (error) {
-          // skip
-          console.error(error);
-        } finally {
-          formState.loading = false;
-        }
-      }
-
-      async function handleCaptcha() {
-        const data = await getCaptcha();
-        codeUrlRef.value = 'data:image/gif;base64,' + data.img;
-        formData.uuid = data.uuid;
-      }
-
-      return {
-        t,
-        prefixCls,
-        formRef,
-        codeUrlRef,
-        formData,
-        formState,
-        getFormRules,
-        rememberMe,
-        handleLogin,
-        getCaptcha: handleCaptcha,
-        loading,
-        setLoginState,
-        LoginStateEnum,
-        getShow,
-        captchaEnable,
-      };
-    },
+  const formData = reactive({
+    account: 'vben',
+    password: '123456',
   });
+
+  const { validForm } = useFormValid(formRef);
+
+  //onKeyStroke('Enter', handleLogin);
+
+  const getShow = computed(() => unref(getLoginState) === LoginStateEnum.LOGIN);
+
+  async function handleLogin() {
+    const data = await validForm();
+    if (!data) return;
+    try {
+      loading.value = true;
+      const userInfo = await userStore.login(
+        toRaw({
+          password: data.password,
+          username: data.account,
+          mode: 'none', //不要默认的错误提示
+        })
+      );
+      if (userInfo) {
+        notification.success({
+          message: t('sys.login.loginSuccessTitle'),
+          description: `${t('sys.login.loginSuccessDesc')}: ${userInfo.realName}`,
+          duration: 3,
+        });
+      }
+    } catch (error) {
+      createErrorModal({
+        title: t('sys.api.errorTip'),
+        content: error.message || t('sys.api.networkExceptionMsg'),
+        getContainer: () => document.body.querySelector(`.${prefixCls}`) || document.body,
+      });
+    } finally {
+      loading.value = false;
+    }
+  }
 </script>
 <style lang="less" scoped>
   .captcha-row {
