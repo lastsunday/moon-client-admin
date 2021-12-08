@@ -11313,10 +11313,10 @@ vite-plugin-windicss@^1.2.7:
     debug "^4.3.2"
     windicss "^3.1.6"
 
-vite@2.5.0-beta.2:
-  version "2.5.0-beta.2"
-  resolved "https://registry.npmmirror.com/vite/download/vite-2.5.0-beta.2.tgz#3b71eecb17b7e62869366a91e92bd26578bb4f7f"
-  integrity sha1-O3Huyxe35ihpNmqR6SvSZXi7T38=
+vite@2.5.0:
+  version "2.5.0"
+  resolved "https://registry.npmmirror.com/vite/download/vite-2.5.0.tgz#111ba3679432d426e44566acf480005a7914cbd6"
+  integrity sha1-ERujZ5Qy1CbkRWas9IAAWnkUy9Y=
   dependencies:
     esbuild "^0.12.17"
     postcss "^8.3.6"
