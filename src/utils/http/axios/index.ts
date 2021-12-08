@@ -47,7 +47,7 @@ const transform: AxiosTransform = {
 
   // 请求之前处理config
   beforeRequestHook: (config, options) => {
-    const { apiUrl, joinPrefix, joinParamsToUrl, formatDate, joinTime = true,urlPrefix } = options;
+    const { apiUrl, joinPrefix, joinParamsToUrl, formatDate, joinTime = true, urlPrefix } = options;
 
     if (joinPrefix) {
       config.url = `${urlPrefix}${config.url}`;
@@ -163,7 +163,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
         timeout: 10 * 1000,
         // 基础接口地址
         // baseURL: globSetting.apiUrl,
-        
+
         headers: { 'Content-Type': ContentTypeEnum.JSON },
         // 如果是form-data格式
         // headers: { 'Content-Type': ContentTypeEnum.FORM_URLENCODED },
