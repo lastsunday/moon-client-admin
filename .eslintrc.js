@@ -17,7 +17,6 @@ module.exports = defineConfig({
       jsx: true,
     },
   },
-
   extends: [
     'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
@@ -30,7 +29,6 @@ module.exports = defineConfig({
     '@typescript-eslint/ban-ts-ignore': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-empty-interface': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     'vue/custom-event-name-casing': 'off',
@@ -57,6 +55,8 @@ module.exports = defineConfig({
     'space-before-function-paren': 'off',
 
     'vue/attributes-order': 'off',
+    'vue/v-on-event-hyphenation': 'off',
+    'vue/multi-word-component-names': 'off',
     'vue/one-component-per-file': 'off',
     'vue/html-closing-bracket-newline': 'off',
     'vue/max-attributes-per-line': 'off',

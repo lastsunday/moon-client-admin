@@ -12,7 +12,6 @@ import {
   PROJ_CFG_KEY,
   APP_LOCAL_CACHE_KEY,
   APP_SESSION_CACHE_KEY,
-  PERMISSION_KEY,
   MULTIPLE_TABS_KEY,
 } from '/@/enums/cacheEnum';
 import { DEFAULT_CACHE_TIME } from '/@/settings/encryptionSetting';
@@ -25,7 +24,6 @@ interface BasicStore {
   [ROLES_KEY]: string[];
   [LOCK_INFO_KEY]: LockInfo;
   [PROJ_CFG_KEY]: ProjectConfig;
-  [PERMISSION_KEY]: string[];
   [MULTIPLE_TABS_KEY]: RouteLocationNormalized[];
 }
 

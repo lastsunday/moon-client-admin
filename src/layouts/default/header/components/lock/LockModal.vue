@@ -8,8 +8,10 @@
   >
     <div :class="`${prefixCls}__entry`">
       <div :class="`${prefixCls}__header`">
-        <img :src="headerImg" :class="`${prefixCls}__header-img`" />
-        <p :class="`${prefixCls}__header-name`">{{ getName }}</p>
+        <img :src="avatar" :class="`${prefixCls}__header-img`" />
+        <p :class="`${prefixCls}__header-name`">
+          {{ getRealName }}
+        </p>
       </div>
 
       <BasicForm @register="registerForm" />
@@ -42,7 +44,7 @@
       const userStore = useUserStore();
       const lockStore = useLockStore();
 
-      const getName = computed(() => userStore.getUserInfo?.name);
+      const getRealName = computed(() => userStore.getUserInfo?.realName);
       const [register, { closeModal }] = useModalInner();
 
       const [registerForm, { validateFields, resetFields }] = useForm({
@@ -69,14 +71,19 @@
         await resetFields();
       }
 
+      const avatar = computed(() => {
+        const { avatar } = userStore.getUserInfo;
+        return avatar || headerImg;
+      });
+
       return {
         t,
         prefixCls,
-        getName,
+        getRealName,
         register,
         registerForm,
         handleLock,
-        headerImg,
+        avatar,
       };
     },
   });

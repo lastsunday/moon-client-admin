@@ -8,6 +8,7 @@ const userManagement: AppRouteModule = {
   component: LAYOUT,
   redirect: '/monitor/server',
   meta: {
+    orderNo: 30,
     icon: 'mdi:monitor-dashboard',
     title: t('routes.sys.systemMonitor'),
   },

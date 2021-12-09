@@ -8,6 +8,7 @@ const userManagement: AppRouteModule = {
   component: LAYOUT,
   redirect: '/user/online',
   meta: {
+    orderNo: 20,
     icon: 'grommet-icons:user-manager',
     title: t('routes.sys.userManagement'),
   },

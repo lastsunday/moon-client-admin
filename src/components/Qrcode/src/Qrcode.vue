@@ -12,7 +12,6 @@
 
   export default defineComponent({
     name: 'QrCode',
-    emits: { done: (url: string) => !!url, error: (error: any) => !!error },
     props: {
       value: {
         type: [String, Array] as PropType<string | any[]>,

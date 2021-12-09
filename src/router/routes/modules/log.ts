@@ -8,10 +8,20 @@ const userManagement: AppRouteModule = {
   component: LAYOUT,
   redirect: '/log/system',
   meta: {
+    orderNo: 40,
     icon: 'codicon:book',
     title: t('routes.sys.log'),
   },
   children: [
+    {
+      path: 'logininfo',
+      name: 'logininfo',
+      component: () => import('/@/views/sys/log/logininfo/index.vue'),
+      meta: {
+        title: t('routes.sys.loginLog'),
+        icon: 'uil:file-edit-alt',
+      },
+    },
     {
       path: 'system',
       name: 'system',
@@ -20,15 +30,6 @@ const userManagement: AppRouteModule = {
         title: t('routes.sys.systemLog'),
         icon: 'mdi:monitor-edit',
         permissions: ['system:log:list'],
-      },
-    },
-    {
-      path: 'logininfo',
-      name: 'logininfo',
-      component: () => import('/@/views/sys/log/logininfo/index.vue'),
-      meta: {
-        title: t('routes.sys.loginLog'),
-        icon: 'uil:file-edit-alt',
       },
     },
   ],

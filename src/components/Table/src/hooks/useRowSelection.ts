@@ -5,7 +5,6 @@ import { ROW_KEY } from '../const';
 import { omit } from 'lodash-es';
 import { findNodeAll } from '/@/utils/helper/treeHelper';
 
-/* eslint-disable */
 export function useRowSelection(
   propsRef: ComputedRef<BasicTableProps>,
   tableData: Ref<Recordable[]>,

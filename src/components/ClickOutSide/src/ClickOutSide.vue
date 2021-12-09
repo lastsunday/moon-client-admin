@@ -1,5 +1,7 @@
 <template>
-  <div ref="wrap"><slot></slot></div>
+  <div ref="wrap">
+    <slot></slot>
+  </div>
 </template>
 <script lang="ts" setup>
   import { ref, onMounted } from 'vue';

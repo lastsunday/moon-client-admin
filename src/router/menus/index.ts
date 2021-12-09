@@ -1,10 +1,13 @@
 import type { Menu, MenuModule } from '/@/router/types';
 import type { RouteRecordNormalized } from 'vue-router';
 
+import { useAppStoreWithOut } from '/@/store/modules/app';
+import { usePermissionStore } from '/@/store/modules/permission';
 import { transformMenuModule, getAllParentPath } from '/@/router/helper/menuHelper';
 import { filter } from '/@/utils/helper/treeHelper';
 import { isUrl } from '/@/utils/is';
 import { router } from '/@/router';
+import { PermissionModeEnum } from '/@/enums/appEnum';
 import { pathToRegexp } from 'path-to-regexp';
 
 const modules = import.meta.globEager('./modules/**/*.ts');
@@ -20,6 +23,23 @@ Object.keys(modules).forEach((key) => {
 // ===========================
 // ==========Helper===========
 // ===========================
+
+const getPermissionMode = () => {
+  const appStore = useAppStoreWithOut();
+  return appStore.getProjectConfig.permissionMode;
+};
+const isBackMode = () => {
+  return getPermissionMode() === PermissionModeEnum.BACK;
+};
+
+const isRouteMappingMode = () => {
+  return getPermissionMode() === PermissionModeEnum.ROUTE_MAPPING;
+};
+
+const isRoleMode = () => {
+  return getPermissionMode() === PermissionModeEnum.ROLE;
+};
+
 const staticMenus: Menu[] = [];
 (() => {
   menuModules.sort((a, b) => {
@@ -32,18 +52,23 @@ const staticMenus: Menu[] = [];
 })();
 
 async function getAsyncMenus() {
-  // 前端角色控制菜单 直接取菜单文件
-  const allMenu: Menu[] = [];
-  for (const menu of staticMenus) {
-    allMenu.push(menu);
+  const permissionStore = usePermissionStore();
+  if (isBackMode()) {
+    return permissionStore.getBackMenuList.filter((item) => !item.meta?.hideMenu && !item.hideMenu);
   }
-  return allMenu;
+  if (isRouteMappingMode()) {
+    return permissionStore.getFrontMenuList.filter((item) => !item.hideMenu);
+  }
+  return staticMenus;
 }
 
 export const getMenus = async (): Promise<Menu[]> => {
   const menus = await getAsyncMenus();
-  const routes = router.getRoutes();
-  return filter(menus, basicFilter(routes));
+  if (isRoleMode()) {
+    const routes = router.getRoutes();
+    return filter(menus, basicFilter(routes));
+  }
+  return menus;
 };
 
 export async function getCurrentParentPath(currentPath: string) {
@@ -56,14 +81,24 @@ export async function getCurrentParentPath(currentPath: string) {
 export async function getShallowMenus(): Promise<Menu[]> {
   const menus = await getAsyncMenus();
   const shallowMenuList = menus.map((item) => ({ ...item, children: undefined }));
-  return shallowMenuList.filter(basicFilter(routes));
+  if (isRoleMode()) {
+    const routes = router.getRoutes();
+    return shallowMenuList.filter(basicFilter(routes));
+  }
+  return shallowMenuList;
 }
 
 // Get the children of the menu
 export async function getChildrenMenus(parentPath: string) {
   const menus = await getMenus();
   const parent = menus.find((item) => item.path === parentPath);
-  if (!parent) return [] as Menu[];
+  if (!parent || !parent.children || !!parent?.meta?.hideChildrenInMenu) {
+    return [] as Menu[];
+  }
+  if (isRoleMode()) {
+    const routes = router.getRoutes();
+    return filter(parent.children, basicFilter(routes));
+  }
   return parent.children;
 }
 
@@ -82,9 +117,7 @@ function basicFilter(routes: RouteRecordNormalized[]) {
 
       return isSame || pathToRegexp(route.path).test(menu.path);
     });
-    if (matchRoute?.redirect) {
-      return false;
-    }
+
     if (!matchRoute) return false;
     menu.icon = (menu.icon || matchRoute.meta.icon) as string;
     menu.meta = matchRoute.meta;

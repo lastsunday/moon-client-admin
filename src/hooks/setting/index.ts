@@ -59,6 +59,7 @@ export const useGlobSetting = (): Readonly<GlobConfig> => {
     } else {
       //skip
     }
+    console.log(result)
     result.loginCaptchaCheckingEnable = JSON.parse(result.loginCaptchaCheckingEnable as any);
     globSetting = result;
   }

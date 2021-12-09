@@ -54,7 +54,6 @@ function createEnterPlugin(maxOutput = 7) {
         ...createCss(index, 'y'),
       });
     }
-
     addBase({
       ...addRawCss,
       [`@keyframes enter-x-animation`]: {

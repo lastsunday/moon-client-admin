@@ -33,5 +33,9 @@ export function genMessage(langs: Record<string, Record<string, any>>, prefix = 
       }
     }
   });
+  //删除error额外的多语言
+  if (obj.error.api) {
+    delete obj.error.api;
+  }
   return obj;
 }

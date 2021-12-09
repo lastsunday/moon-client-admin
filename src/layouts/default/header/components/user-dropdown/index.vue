@@ -1,10 +1,10 @@
 <template>
   <Dropdown placement="bottomLeft" :overlayClassName="`${prefixCls}-dropdown-overlay`">
     <span :class="[prefixCls, `${prefixCls}--${theme}`]" class="flex">
-      <img :class="`${prefixCls}__header`" :src="headerImg" />
+      <img :class="`${prefixCls}__header`" :src="getUserInfo.avatar" />
       <span :class="`${prefixCls}__info hidden md:block`">
         <span :class="`${prefixCls}__name  `" class="truncate">
-          {{ getUserInfo.name }}
+          {{ getUserInfo.realName }}
         </span>
       </span>
     </span>
@@ -45,13 +45,13 @@
   import { useUserStore } from '/@/store/modules/user';
   import { useHeaderSetting } from '/@/hooks/setting/useHeaderSetting';
   import { useI18n } from '/@/hooks/web/useI18n';
-
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useModal } from '/@/components/Modal';
 
   import headerImg from '/@/assets/images/header.png';
   import { propTypes } from '/@/utils/propTypes';
   import { openWindow } from '/@/utils';
+
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
 
   type MenuEvent = 'logout' | 'doc' | 'lock';
@@ -75,11 +75,12 @@
       const userStore = useUserStore();
 
       const getUserInfo = computed(() => {
-        const { name = '', desc } = userStore.getUserInfoState || {};
-        return { name, desc };
+        const { realName = '', avatar, desc } = userStore.getUserInfo || {};
+        return { realName, avatar: avatar || headerImg, desc };
       });
 
       const [register, { openModal }] = useModal();
+
       function handleLock() {
         openModal(true);
       }
@@ -114,7 +115,6 @@
         getUserInfo,
         handleMenuClick,
         getShowDoc,
-        headerImg,
         register,
         getUseLockPage,
       };

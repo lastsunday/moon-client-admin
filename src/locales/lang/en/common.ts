@@ -15,7 +15,6 @@ export default {
   redo: 'Refresh',
   back: 'Back',
 
-  functionNotImplementYet: 'Function not implement yet',
   light: 'Light',
   dark: 'Dark',
 };

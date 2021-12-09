@@ -69,18 +69,18 @@
         let lang: Lang;
         switch (unref(getLocale)) {
           case 'en':
-            lang.value = 'en_US';
+            lang = 'en_US';
             break;
           case 'ja':
-            lang.value = 'ja_JP';
+            lang = 'ja_JP';
             break;
           case 'ko':
-            lang.value = 'ko_KR';
+            lang = 'ko_KR';
             break;
           default:
-            lang.value = 'zh_CN';
+            lang = 'zh_CN';
         }
-        return lang.value;
+        return lang;
       });
       function init() {
         const wrapEl = unref(wrapRef) as HTMLElement;

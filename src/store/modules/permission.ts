@@ -6,17 +6,23 @@ import { useI18n } from '/@/hooks/web/useI18n';
 import { useUserStore } from './user';
 import { useAppStoreWithOut } from './app';
 import { toRaw } from 'vue';
-import { flatMultiLevelRoutes } from '/@/router/helper/routeHelper';
+import { transformObjToRoute, flatMultiLevelRoutes } from '/@/router/helper/routeHelper';
 import { transformRouteToMenu } from '/@/router/helper/menuHelper';
 
 import projectSetting from '/@/settings/projectSetting';
 
 import { PermissionModeEnum } from '/@/enums/appEnum';
 
-import { asyncRoutes, frameworkRoutes } from '/@/router/routes';
+import { asyncRoutes } from '/@/router/routes';
+import { ERROR_LOG_ROUTE, PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic';
 
 import { filter } from '/@/utils/helper/treeHelper';
+
+import { getMenuList } from '/@/api/sys/menu';
+import { getPermCode } from '/@/api/sys/user';
+
 import { useMessage } from '/@/hooks/web/useMessage';
+import { PageEnum } from '/@/enums/pageEnum';
 
 interface PermissionState {
   // Permission code list
@@ -63,7 +69,7 @@ export const usePermissionStore = defineStore({
     setPermCodeList(codeList: string[]) {
       this.permCodeList = codeList;
     },
-
+    
     setBackMenuList(list: Menu[]) {
       this.backMenuList = list;
       list?.length > 0 && this.setLastBuildMenuTime();
@@ -86,6 +92,9 @@ export const usePermissionStore = defineStore({
       this.backMenuList = [];
       this.lastBuildMenuTime = 0;
     },
+    async changePermissionCode(codeList: string[]) {
+      this.setPermCodeList(codeList);
+    },
     async buildRoutesAction(): Promise<AppRouteRecordRaw[]> {
       const { t } = useI18n();
       const userStore = useUserStore();
@@ -106,6 +115,36 @@ export const usePermissionStore = defineStore({
         const { meta } = route;
         const { ignoreRoute } = meta || {};
         return !ignoreRoute;
+      };
+
+      /**
+       * @description 根据设置的首页path，修正routes中的affix标记（固定首页）
+       * */
+      const patchHomeAffix = (routes: AppRouteRecordRaw[]) => {
+        if (!routes || routes.length === 0) return;
+        let homePath: string = userStore.getUserInfo.homePath || PageEnum.BASE_HOME;
+        function patcher(routes: AppRouteRecordRaw[], parentPath = '') {
+          if (parentPath) parentPath = parentPath + '/';
+          routes.forEach((route: AppRouteRecordRaw) => {
+            const { path, children, redirect } = route;
+            const currentPath = path.startsWith('/') ? path : parentPath + path;
+            if (currentPath === homePath) {
+              if (redirect) {
+                homePath = route.redirect! as string;
+              } else {
+                route.meta = Object.assign({}, route.meta, { affix: true });
+                throw new Error('end');
+              }
+            }
+            children && children.length > 0 && patcher(children, currentPath);
+          });
+        }
+        try {
+          patcher(routes);
+        } catch (e) {
+          // 已处理完毕跳出循环
+        }
+        return;
       };
 
       switch (permissionMode) {
@@ -139,24 +178,60 @@ export const usePermissionStore = defineStore({
             content: t('sys.app.menuLoading'),
             duration: 1,
           });
-          const permissionList = toRaw(userStore.getPermissionListState);
-          routes = filter(asyncRoutes, (route) => {
-            const { meta } = route;
-            const { permissions } = meta!;
-            if (!permissions) return true;
-            if (permissionList.includes('*')) return true;
-            return permissionList.some((item) => permissions.includes(item.toString()));
-          });
-          const backMenuList = transformRouteToMenu(routes);
+
+          // !Simulate to obtain permission codes from the background,
+          // this function may only need to be executed once, and the actual project can be put at the right time by itself
+          let routeList: AppRouteRecordRaw[] = [];
+          try {
+            const codeList : string[] = await getPermCode();
+            this.changePermissionCode(codeList);
+            //router modify-----
+            // routeList = (await getMenuList()) as AppRouteRecordRaw[];
+            routeList = filter(asyncRoutes, (route) => {
+              const { meta } = route;
+              const { permissions } = meta!;
+              if (!permissions) return true;
+              if (codeList.includes('*')) return true;
+              return codeList.some((item) => permissions.includes(item.toString()));
+            });
+            //清理无子菜单的分类
+            routeList = filter(routeList, (route) => {
+              if(!route.redirect){
+                return true;
+              }else{
+                return route.children && route.children.length != 0;
+              }
+            });
+            //router modify-----
+          } catch (error) {
+            console.error(error);
+          }
+
+          //router modify-----
+          // Dynamically introduce components
+          // routeList = transformObjToRoute(routeList);
+          //router modify-----
+
+          //  Background routing to menu structure
+          const backMenuList = transformRouteToMenu(routeList);
           this.setBackMenuList(backMenuList);
+
+          // remove meta.ignoreRoute item
+          routeList = filter(routeList, routeRemoveIgnoreFilter);
+          routeList = routeList.filter(routeRemoveIgnoreFilter);
+
+          routeList = flatMultiLevelRoutes(routeList);
+          routes = [PAGE_NOT_FOUND_ROUTE, ...routeList];
+          break;
       }
-      const result: any = [];
-      routes.forEach((item) => result.push(item));
-      frameworkRoutes.forEach((item) => result.push(item));
-      return result;
+
+      routes.push(ERROR_LOG_ROUTE);
+      patchHomeAffix(routes);
+      return routes;
     },
   },
 });
+
 // Need to be used outside the setup
 export function usePermissionStoreWithOut() {
   return usePermissionStore(store);

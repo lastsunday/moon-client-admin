@@ -16,9 +16,7 @@ Object.keys(modules).forEach((key) => {
   routeModuleList.push(...modList);
 });
 
-export const asyncRoutes = [...routeModuleList];
-
-export const frameworkRoutes = [REDIRECT_ROUTE, PAGE_NOT_FOUND_ROUTE];
+export const asyncRoutes = [PAGE_NOT_FOUND_ROUTE, ...routeModuleList];
 
 export const RootRoute: AppRouteRecordRaw = {
   path: '/',

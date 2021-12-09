@@ -1,25 +1,26 @@
 <template>
   <div
     :class="prefixCls"
-    class="fixed inset-0 flex items-center justify-center w-screen h-screen bg-black"
+    class="fixed inset-0 flex h-screen w-screen bg-black items-center justify-center"
   >
     <div
       :class="`${prefixCls}__unlock`"
       class="
         absolute
         top-0
-        flex flex-col
+        left-1/2
+        flex
+        pt-5
+        h-16
         items-center
         justify-center
-        h-16
-        pt-5
-        text-white
-        transform
-        translate-x-1/2
-        cursor-pointer
-        left-1/2
         sm:text-md
         xl:text-xl
+        text-white
+        flex-col
+        cursor-pointer
+        transform
+        translate-x-1/2
       "
       @click="handleShowForm(false)"
       v-show="showDate"
@@ -28,10 +29,10 @@
       <span>{{ t('sys.lock.unlock') }}</span>
     </div>
 
-    <div class="flex items-center justify-center w-screen h-screen">
-      <div :class="`${prefixCls}__hour`" class="relative w-2/5 mr-5 md:mr-20 h-2/5 md:h-4/5">
+    <div class="flex w-screen h-screen justify-center items-center">
+      <div :class="`${prefixCls}__hour`" class="relative mr-5 md:mr-20 w-2/5 h-2/5 md:h-4/5">
         <span>{{ hour }}</span>
-        <span class="absolute meridiem left-5 top-5 text-md xl:text-xl" v-show="showDate">
+        <span class="meridiem absolute left-5 top-5 text-md xl:text-xl" v-show="showDate">
           {{ meridiem }}
         </span>
       </div>
@@ -43,9 +44,9 @@
       <div :class="`${prefixCls}-entry`" v-show="!showDate">
         <div :class="`${prefixCls}-entry-content`">
           <div :class="`${prefixCls}-entry__header enter-x`">
-            <img :src="headerImg" :class="`${prefixCls}-entry__header-img`" />
+            <img :src="userinfo.avatar || headerImg" :class="`${prefixCls}-entry__header-img`" />
             <p :class="`${prefixCls}-entry__header-name`">
-              {{ name }}
+              {{ userinfo.realName }}
             </p>
           </div>
           <InputPassword
@@ -83,8 +84,8 @@
       </div>
     </transition>
 
-    <div class="absolute w-full text-center text-gray-300 bottom-5 xl:text-xl 2xl:text-3xl enter-y">
-      <div class="mb-4 text-5xl enter-x" v-show="!showDate">
+    <div class="absolute bottom-5 w-full text-gray-300 xl:text-xl 2xl:text-3xl text-center enter-y">
+      <div class="text-5xl mb-4 enter-x" v-show="!showDate">
         {{ hour }}:{{ minute }} <span class="text-3xl">{{ meridiem }}</span>
       </div>
       <div class="text-2xl">{{ year }}/{{ month }}/{{ day }} {{ week }}</div>
@@ -92,7 +93,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { ref, computed } from 'vue';
   import { Input } from 'ant-design-vue';
   import { useUserStore } from '/@/store/modules/user';
   import { useLockStore } from '/@/store/modules/lock';
@@ -117,9 +118,9 @@
 
   const { t } = useI18n();
 
-  // const userinfo = computed(() => {
-  //   return userStore.getUserInfo || {};
-  // });
+  const userinfo = computed(() => {
+    return userStore.getUserInfo || {};
+  });
 
   /**
    * @description: unLock

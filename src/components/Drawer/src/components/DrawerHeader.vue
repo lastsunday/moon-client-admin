@@ -33,6 +33,7 @@
       showDetailBack: propTypes.bool,
       title: propTypes.string,
     },
+    emits: ['close'],
     setup(_, { emit }) {
       const { prefixCls } = useDesign('basic-drawer-header');
 

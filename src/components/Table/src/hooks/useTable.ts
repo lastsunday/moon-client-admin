@@ -105,7 +105,7 @@ export function useTable(tableProps?: Props): [
       return toRaw(getTableInstance().getSelectRowKeys());
     },
     getSelectRows: () => {
-      return getTableInstance().getSelectRows();
+      return toRaw(getTableInstance().getSelectRows());
     },
     clearSelectedRowKeys: () => {
       getTableInstance().clearSelectedRowKeys();

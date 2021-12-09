@@ -2,7 +2,6 @@ import type { ValidationRule } from 'ant-design-vue/lib/form/Form';
 import type { RuleObject } from 'ant-design-vue/lib/form/interface';
 import { ref, computed, unref, Ref } from 'vue';
 import { useI18n } from '/@/hooks/web/useI18n';
-import { useGlobSetting } from '/@/hooks/setting';
 
 export enum LoginStateEnum {
   LOGIN,
@@ -41,19 +40,9 @@ export function useFormValid<T extends Object = any>(formRef: Ref<any>) {
 
 export function useFormRules(formData?: Recordable) {
   const { t } = useI18n();
-  const globSetting = useGlobSetting();
 
   const getAccountFormRule = computed(() => createRule(t('sys.login.accountPlaceholder')));
   const getPasswordFormRule = computed(() => createRule(t('sys.login.passwordPlaceholder')));
-  const getVerifyCodeFormRule = computed(() => {
-    return [
-      {
-        required: globSetting.loginCaptchaCheckingEnable,
-        message: t('sys.login.rule.verifyCode'),
-        trigger: 'blur',
-      },
-    ];
-  });
   const getSmsFormRule = computed(() => createRule(t('sys.login.smsPlaceholder')));
   const getMobileFormRule = computed(() => createRule(t('sys.login.mobilePlaceholder')));
 
@@ -76,7 +65,6 @@ export function useFormRules(formData?: Recordable) {
   const getFormRules = computed((): { [k: string]: ValidationRule | ValidationRule[] } => {
     const accountFormRule = unref(getAccountFormRule);
     const passwordFormRule = unref(getPasswordFormRule);
-    const verifyCodeFormRule = unref(getVerifyCodeFormRule);
     const smsFormRule = unref(getSmsFormRule);
     const mobileFormRule = unref(getMobileFormRule);
 
@@ -96,12 +84,14 @@ export function useFormRules(formData?: Recordable) {
           policy: [{ validator: validatePolicy, trigger: 'change' }],
           ...mobileRule,
         };
+
       // reset password form rules
       case LoginStateEnum.RESET_PASSWORD:
         return {
           account: accountFormRule,
           ...mobileRule,
         };
+
       // mobile form rules
       case LoginStateEnum.MOBILE:
         return mobileRule;
@@ -111,7 +101,6 @@ export function useFormRules(formData?: Recordable) {
         return {
           account: accountFormRule,
           password: passwordFormRule,
-          verifyCode: verifyCodeFormRule,
         };
     }
   });

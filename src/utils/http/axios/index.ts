@@ -8,18 +8,20 @@ import { VAxios } from './Axios';
 import { checkStatus } from './checkStatus';
 import { useGlobSetting } from '/@/hooks/setting';
 import { useMessage } from '/@/hooks/web/useMessage';
-import { RequestEnum, ContentTypeEnum } from '/@/enums/httpEnum';
+import { RequestEnum, ResultEnum, ContentTypeEnum } from '/@/enums/httpEnum';
 import { isString } from '/@/utils/is';
 import { getToken } from '/@/utils/auth';
 import { setObjToUrlParams, deepMerge } from '/@/utils';
 import { useErrorLogStoreWithOut } from '/@/store/modules/errorLog';
 import { useI18n } from '/@/hooks/web/useI18n';
-import { formatRequestDate, joinTimestamp } from './helper';
-import { translateErrorMessage } from './translateErrorMessage';
+import { joinTimestamp, formatRequestDate } from './helper';
+import { useUserStoreWithOut } from '/@/store/modules/user';
 
 const globSetting = useGlobSetting();
 const urlPrefix = globSetting.urlPrefix;
 const { createMessage, createErrorModal } = useMessage();
+
+import { translateErrorMessage } from './translateErrorMessage';
 
 /**
  * @description: 数据处理，方便区分多种处理方式
@@ -29,6 +31,7 @@ const transform: AxiosTransform = {
    * @description: 处理请求数据。如果数据不是预期格式，可直接抛出错误
    */
   transformRequestHook: (res: AxiosResponse<Result>, options: RequestOptions) => {
+    const { t } = useI18n();
     const { isTransformResponse, isReturnNativeResponse } = options;
     // 是否返回原生响应头 比如：需要获取响应头时使用该属性
     if (isReturnNativeResponse) {
@@ -123,10 +126,12 @@ const transform: AxiosTransform = {
     const { t } = useI18n();
     const errorLogStore = useErrorLogStoreWithOut();
     errorLogStore.addAjaxErrorInfo(error);
-    const { response, code, message } = error || {};
-    // errorCode i18n
+    const { response, code, message, config } = error || {};
+    const errorMessageMode = config?.requestOptions?.errorMessageMode || 'none';
     const msg: string = translateErrorMessage(response);
-    const err: string = error?.toString();
+    const err: string = error?.toString?.() ?? '';
+    let errMessage = '';
+
     try {
       if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
         errMessage = t('sys.api.apiTimeoutMessage');
@@ -148,6 +153,10 @@ const transform: AxiosTransform = {
     }
 
     checkStatus(error?.response?.status, msg, errorMessageMode);
+    //针对400添加额外错误信息
+    if(error?.response?.status == 400){
+      error.message = msg;
+    }
     return Promise.reject(error);
   },
 };
@@ -173,6 +182,8 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
         requestOptions: {
           // 默认将prefix 添加到url
           joinPrefix: true,
+          // 是否返回原生响应头 比如：需要获取响应头时使用该属性
+          isReturnNativeResponse: false,
           // 需要对返回数据进行处理
           isTransformResponse: true,
           // post请求的时候添加参数到url

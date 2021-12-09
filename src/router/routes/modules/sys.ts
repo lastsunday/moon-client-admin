@@ -9,6 +9,7 @@ const system: AppRouteModule = {
   component: LAYOUT,
   redirect: '/sys/admin',
   meta: {
+    orderNo: 50,
     icon: 'carbon:inventory-management',
     title: t('routes.sys.management'),
   },

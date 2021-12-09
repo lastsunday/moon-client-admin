@@ -98,6 +98,7 @@ export interface ProjectConfig {
   colorWeak: boolean;
   // Theme color
   themeColor: string;
+
   // The main interface is displayed in full screen, the menu is not displayed, and the top
   fullContent: boolean;
   // content width
@@ -106,9 +107,8 @@ export interface ProjectConfig {
   showLogo: boolean;
   // Whether to show the global footer
   showFooter: boolean;
-  headerSetting: HeaderSetting;
-  // 菜单类型
   // menuType: MenuTypeEnum;
+  headerSetting: HeaderSetting;
   // menuSetting
   menuSetting: MenuSetting;
   // Multi-tab settings
