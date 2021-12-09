@@ -92,7 +92,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { ref, computed } from 'vue';
+  import { ref } from 'vue';
   import { Input } from 'ant-design-vue';
   import { useUserStore } from '/@/store/modules/user';
   import { useLockStore } from '/@/store/modules/lock';
@@ -117,9 +117,9 @@
 
   const { t } = useI18n();
 
-  const userinfo = computed(() => {
-    return userStore.getUserInfo || {};
-  });
+  // const userinfo = computed(() => {
+  //   return userStore.getUserInfo || {};
+  // });
 
   /**
    * @description: unLock
@@ -209,7 +209,7 @@
       display: flex;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgb(0 0 0 / 50%);
       backdrop-filter: blur(8px);
       justify-content: center;
       align-items: center;

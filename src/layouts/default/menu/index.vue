@@ -167,7 +167,7 @@
     &--mobile {
       .@{logo-prefix-cls} {
         &__title {
-          opacity: 1;
+          opacity: 100%;
         }
       }
     }
