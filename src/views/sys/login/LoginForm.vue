@@ -93,7 +93,7 @@
   </Form>
 </template>
 <script lang="ts" setup>
-  import { reactive, ref, toRaw, unref, computed } from 'vue';
+  import { reactive, ref, unref, computed } from 'vue';
 
   import { Form, Input, Row, Col, Button } from 'ant-design-vue';
   import LoginFormTitle from './LoginFormTitle.vue';
@@ -104,15 +104,15 @@
 
   import { useUserStore } from '/@/store/modules/user';
   import { LoginStateEnum, useLoginState, useFormRules, useFormValid } from './useLogin';
-  import { useDesign } from '/@/hooks/web/useDesign';
+  // import { useDesign } from '/@/hooks/web/useDesign';
   import { getCaptcha } from '/@/api/sys/captcha';
 
   const { t } = useI18n();
   const { notification } = useMessage();
-  const { prefixCls } = useDesign('login');
+  // const { prefixCls } = useDesign('login');
   const userStore = useUserStore();
 
-  const { setLoginState, getLoginState } = useLoginState();
+  const { getLoginState } = useLoginState();
   const { getFormRules } = useFormRules();
 
   const ACol = Col;
@@ -122,8 +122,8 @@
 
   const formRef = ref<any>(null);
   const globSetting = useGlobSetting();
-  const loading = ref(false);
-  const rememberMe = ref(false);
+  // const loading = ref(false);
+  // const rememberMe = ref(false);
   const captchaEnable = globSetting.loginCaptchaCheckingEnable;
   let codeUrlRef = ref<string>('');
   if (captchaEnable) {
@@ -156,15 +156,13 @@
       const form = unref(formRef);
       if (!form) return;
       const data = await form.validate();
-      const userInfo = await userStore.login(
-        toRaw({
-          password: data.password,
-          account: data.account,
-          verifyCode: formData.verifyCode,
-          uuid: formData.uuid,
-          mode: 'none', //不要默认的错误提示
-        })
-      );
+      const userInfo = await userStore.login({
+        password: data.password,
+        account: data.account,
+        verifyCode: formData.verifyCode,
+        uuid: formData.uuid,
+        mode: 'none', //不要默认的错误提示
+      });
       if (userInfo) {
         notification.success({
           message: t('sys.login.loginSuccessTitle'),
