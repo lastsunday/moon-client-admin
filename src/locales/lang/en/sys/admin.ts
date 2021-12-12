@@ -12,8 +12,8 @@ export default {
       suprAdmin: 'SuprAdmin',
       guest: 'Guest',
       promptFormat: {
-        promptAdminNameIsNull: 'Please enter admin name.',
-        promptAdminRoleIsNull: 'Please select admin role.',
+        promptAdminNameIsNull: 'Please enter admin name',
+        promptAdminRoleIsNull: 'Please select admin role',
       },
     },
     action: {
@@ -25,8 +25,8 @@ export default {
     deleteContent: {
       warn: 'Warn',
       promptContent: 'Are you sure you want to delete the entry with the account "{adminName}"?',
-      successContent: 'Deleted success.',
-      failedContent: 'Deleted failed.',
+      successContent: 'Deleted success',
+      failedContent: 'Deleted failed',
     },
   },
   modal: {
@@ -64,22 +64,22 @@ export default {
       superAdmin: 'SuperAdmin',
     },
     createContent: {
-      successContent: 'Create success.',
-      failedContent: 'Create failed.',
+      successContent: 'Create success',
+      failedContent: 'Create failed',
     },
     modifyContent: {
-      successContent: 'Update success.',
-      failedContent: 'Update failed.',
+      successContent: 'Update success',
+      failedContent: 'Update failed',
     },
     promptFormat: {
-      promptFormat: 'Please enter a valid email address.',
-      promptRemarkIsNull: 'Please enter remark.',
-      promptPhoneIsNull: 'Please enter phone.',
-      promptAccountIsNull: 'Please enter account.',
-      promptNewPasswordIsNull: 'Please enter new password for the account {account}.',
-      promptPasswordIsNull: 'Please enter password.',
-      promptNameIsNull: 'Please enter name.',
-      promptRoleIdsIsNull: 'Please select role.',
+      promptFormat: 'Please enter a valid email address',
+      promptRemarkIsNull: 'Please enter remark',
+      promptPhoneIsNull: 'Please enter phone',
+      promptAccountIsNull: 'Please enter account',
+      promptNewPasswordIsNull: 'Please enter new password for the account {account}',
+      promptPasswordIsNull: 'Please enter password',
+      promptNameIsNull: 'Please enter name',
+      promptRoleIdsIsNull: 'Please select role',
     },
   },
 };

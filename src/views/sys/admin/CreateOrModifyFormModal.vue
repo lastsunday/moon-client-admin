@@ -33,7 +33,7 @@
             {
               required: true,
               // @ts-ignore
-              validator: async (value) => {
+              validator: async (rule, value) => {
                 if (!value) {
                   return Promise.reject(t('sys.admin.modal.promptFormat.promptAccountIsNull'));
                 }
@@ -239,7 +239,7 @@
           },
           () => {
             // skip
-          }
+          },
         );
       }
 
