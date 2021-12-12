@@ -1,11 +1,6 @@
 <template>
   <PageWrapper>
-    <BasicTable
-      class="basic-table"
-      @register="registerTable"
-      ref="tableRef"
-      :pagination="pagination"
-    >
+    <BasicTable @register="registerTable" ref="tableRef">
       <template #toolbar>
         <a-button type="primary" @click="showCreateModal()">
           <g-icon icon="ant-design:edit-outlined" />
@@ -88,7 +83,6 @@
     },
     setup() {
       const tableRef = ref<Nullable<TableActionType>>(null);
-      const pagination = ref<any>(true);
 
       const { createConfirm, createMessage } = useMessage();
       const { success, error } = createMessage;
@@ -237,7 +231,7 @@
           () => {
             setCreateOrModifyModalProps({ loading: false });
             error(t('sys.admin.modal.createContent.failedContent'));
-          }
+          },
         );
       }
 
@@ -259,7 +253,7 @@
               () => {
                 setLoading(false);
                 error(t('sys.admin.table.deleteContent.failedContent'));
-              }
+              },
             );
           },
         });
@@ -277,7 +271,7 @@
           () => {
             setCreateOrModifyModalProps({ loading: false });
             error(t('sys.admin.modal.modifyContent.failedContent'));
-          }
+          },
         );
       }
 
@@ -293,7 +287,7 @@
           () => {
             setResetModalProps({ loading: false });
             error(t('sys.admin.modal.modifyContent.failedContent'));
-          }
+          },
         );
       }
 
@@ -334,7 +328,6 @@
         deleteRecord,
         resetModal,
         tableRef,
-        pagination,
         showCreateModal,
         showModifyModal,
         showResetModal,
@@ -346,8 +339,6 @@
 </script>
 <style lang="less">
   .basic-table {
-    padding: 0;
-
     .radian {
       border-radius: 4px;
     }

@@ -1,6 +1,6 @@
 <template>
   <PageWrapper>
-    <BasicTable @register="registerTable" ref="tableRef" class="basic-table">
+    <BasicTable @register="registerTable" ref="tableRef">
       <template #toolbar>
         <a-button type="primary" color="error" @click="deleteSelectLog">
           <g-icon icon="ic:outline-delete-outline" />
@@ -223,7 +223,6 @@
       const [registerTable, { getSelectRows, clearSelectedRowKeys }] = useTable({
         dataSource: getLoginLogInfo(),
         columns: columns,
-
         showTableSetting: true,
         clickToRowSelect: false,
         useSearchForm: true,
@@ -244,9 +243,3 @@
     },
   });
 </script>
-
-<style lang="less">
-  .basic-table {
-    padding: 0;
-  }
-</style>

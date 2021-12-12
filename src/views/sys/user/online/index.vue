@@ -1,20 +1,22 @@
 <template>
-  <BasicTable @register="registerTable" ref="tableRef" :pagination="pagination">
-    <template #loginTime="{ record }">
-      {{ formatToDateTime(record.loginTime) }}
-    </template>
-    <template #action="{ record }">
-      <TableAction
-        :actions="[
-          {
-            label: t('sys.user.online.table.action.forceLogout'),
-            icon: 'ic:outline-delete-outline',
-            onClick: handleForceLogout.bind(null, record),
-          },
-        ]"
-      />
-    </template>
-  </BasicTable>
+  <PageWrapper>
+    <BasicTable @register="registerTable" ref="tableRef">
+      <template #loginTime="{ record }">
+        {{ formatToDateTime(record.loginTime) }}
+      </template>
+      <template #action="{ record }">
+        <TableAction
+          :actions="[
+            {
+              label: t('sys.user.online.table.action.forceLogout'),
+              icon: 'ic:outline-delete-outline',
+              onClick: handleForceLogout.bind(null, record),
+            },
+          ]"
+        />
+      </template>
+    </BasicTable>
+  </PageWrapper>
 </template>
 <script lang="ts">
   import { defineComponent, toRaw, ref, unref } from 'vue';
@@ -31,7 +33,6 @@
     components: { BasicTable, TableAction },
     setup() {
       const tableRef = ref<Nullable<TableActionType>>(null);
-      const pagination = ref<any>(true);
 
       const { t } = useI18n();
 
@@ -103,9 +104,10 @@
       const [registerTable] = useTable({
         api: getUserOnlineList,
         columns: columns,
+        showTableSetting: true,
+        clickToRowSelect: false,
         useSearchForm: true,
         formConfig: formConfig,
-        showTableSetting: true,
         actionColumn: {
           width: 160,
           title: t('sys.user.online.table.action.operation'),
@@ -124,7 +126,7 @@
             userOnlineForceLogout(
               toRaw({
                 tokenId: record.tokenId,
-              })
+              }),
             ).then(() => {
               const tableAction = unref(tableRef);
               if (tableAction !== null) {
@@ -149,10 +151,8 @@
         formatToDateTime,
         handleForceLogout,
         tableRef,
-        pagination,
         t,
       };
     },
   });
 </script>
-<style lang="less"></style>

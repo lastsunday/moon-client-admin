@@ -1,11 +1,6 @@
 <template>
   <PageWrapper>
-    <BasicTable
-      class="basic-table"
-      @register="registerTable"
-      ref="tableRef"
-      :pagination="pagination"
-    >
+    <BasicTable @register="registerTable" ref="tableRef">
       <template #toolbar>
         <a-button type="primary" @click="openCreateModal()">
           <EditOutlined />
@@ -79,7 +74,6 @@
     },
     setup() {
       const tableRef = ref<Nullable<TableActionType>>(null);
-      const pagination = ref<any>(true);
 
       const { createConfirm, createMessage } = useMessage();
       const { success, error } = createMessage;
@@ -352,7 +346,6 @@
         createOrModifyModal,
         deleteRecord,
         tableRef,
-        pagination,
         openBrowseModal,
         openCreateModal,
         openModifyModal,
