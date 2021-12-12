@@ -12,6 +12,7 @@ export default {
       },
     },
     action: {
+      browse: '查看',
       create: '创建',
       modify: '编辑',
       delete: '删除',
@@ -25,6 +26,7 @@ export default {
   },
   modal: {
     title: {
+      browse: '查看角色',
       create: '创建角色',
       modify: '编辑角色',
     },

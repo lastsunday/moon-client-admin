@@ -12,6 +12,7 @@ export default {
       },
     },
     action: {
+      browse: 'Browse',
       create: 'Create',
       modify: 'Modify',
       delete: 'Delete',
@@ -25,6 +26,7 @@ export default {
   },
   modal: {
     title: {
+      browse: 'Browse Role',
       create: 'Create Role',
       modify: 'Modify Role',
     },

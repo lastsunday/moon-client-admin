@@ -16,10 +16,16 @@
         <TableAction
           :actions="[
             {
+              label: t('sys.role.table.action.browse'),
+              icon: 'ant-design:eye-outlined',
+              onClick: openBrowseModal.bind(null, record),
+              ifShow: !record.canModify,
+            },
+            {
               label: t('sys.role.table.action.modify'),
               icon: 'ant-design:form-outlined',
               onClick: openModifyModal.bind(null, record),
-              disabled: !record.canModify,
+              ifShow: record.canModify,
             },
             {
               label: t('sys.role.table.action.delete'),
@@ -180,6 +186,8 @@
       function openCreateModal() {
         setCreateOrModifyModalProps({
           title: t('sys.role.modal.title.create'),
+          showCancelBtn: true,
+          showOkBtn: true,
         });
         const data = {
           formData: { status: 0 },
@@ -194,9 +202,29 @@
         openCreateOrModifyModal(true, data);
       }
 
+      function openBrowseModal(record: UpdateRoleRecordParams) {
+        setCreateOrModifyModalProps({
+          title: t('sys.role.modal.title.browse'),
+          showCancelBtn: false,
+          showOkBtn: false,
+        });
+        const data = {
+          formData: record,
+          formConfig: {
+            initData: {
+              permissions: permissionList,
+              allPermissionList,
+            },
+          },
+        };
+        openCreateOrModifyModal(true, data);
+      }
+
       function openModifyModal(record: UpdateRoleRecordParams) {
         setCreateOrModifyModalProps({
           title: t('sys.role.modal.title.modify'),
+          showCancelBtn: true,
+          showOkBtn: true,
         });
         const data = {
           formData: record,
@@ -325,6 +353,7 @@
         deleteRecord,
         tableRef,
         pagination,
+        openBrowseModal,
         openCreateModal,
         openModifyModal,
         t,
