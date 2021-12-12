@@ -8,6 +8,8 @@
           :checkedKeys="setCheckedKeys"
           ref="treeRef"
           v-model:value="model[field]"
+          :search="true"
+          :toolbar="true"
         />
       </template>
     </BasicForm>
@@ -80,25 +82,6 @@
           ],
         },
         {
-          field: 'permissions',
-          label: t('sys.role.modal.columns.permissions'),
-          component: 'CheckboxGroup',
-          slot: 'tree',
-          rules: [
-            {
-              required: true,
-              // @ts-ignore
-              validator: async (rule, value) => {
-                if (!value || value.length === 0) {
-                  return Promise.reject(t('sys.role.modal.promptFormat.promptPermitssionsIsNull'));
-                }
-                return Promise.resolve();
-              },
-              trigger: 'change',
-            },
-          ],
-        },
-        {
           field: 'desc',
           label: t('sys.role.modal.columns.desc'),
           component: 'InputTextArea',
@@ -108,12 +91,23 @@
           },
           rules: [
             {
-              required: true,
               // @ts-ignore
               validator: async (rule, value) => {
-                if (!value) {
-                  return Promise.reject(t('sys.role.modal.promptFormat.promptDescIsNull'));
-                }
+                return Promise.resolve();
+              },
+              trigger: 'change',
+            },
+          ],
+        },
+        {
+          field: 'permissions',
+          label: t('sys.role.modal.columns.permissions'),
+          component: 'CheckboxGroup',
+          slot: 'tree',
+          rules: [
+            {
+              // @ts-ignore
+              validator: async (rule, value) => {
                 return Promise.resolve();
               },
               trigger: 'change',
@@ -126,6 +120,7 @@
           label: '',
           component: 'Input',
           slot: 'customSlot',
+          show: false,
         },
       ];
 
@@ -134,7 +129,14 @@
         const formData = data.formData;
         confirmCallback.value = formConfig.confirmCallback;
         treeData.value = formConfig.initData.permissions;
-        setCheckedKeys.value = formData.permissions ? formData.permissions : [];
+        if (formData.permissions) {
+          if (formData.permissions.includes('*')) {
+            formData.permissions = formConfig.initData.allPermissionList;
+          }
+          setCheckedKeys.value = formData.permissions;
+        } else {
+          setCheckedKeys.value = [];
+        }
         setFieldsValue(formData);
       });
 
@@ -160,7 +162,7 @@
           },
           () => {
             // skip
-          }
+          },
         );
       }
 

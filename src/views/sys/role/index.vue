@@ -19,11 +19,13 @@
               label: t('sys.role.table.action.modify'),
               icon: 'ant-design:form-outlined',
               onClick: openModifyModal.bind(null, record),
+              disabled: !record.canModify,
             },
             {
               label: t('sys.role.table.action.delete'),
               icon: 'ic:outline-delete-outline',
               onClick: deleteRecord.bind(null, record),
+              disabled: !record.canModify,
               color: 'error',
             },
           ]"
@@ -76,6 +78,7 @@
       const { createConfirm, createMessage } = useMessage();
       const { success, error } = createMessage;
       const permissionList = ref<any>([]);
+      const allPermissionList = ref<string[]>([]);
       const { t } = useI18n();
 
       const columns = [
@@ -92,6 +95,7 @@
       onMounted(() => {
         rolePermission().then((data) => {
           permissionList.value = convertPermissionToTree(data.items);
+          allPermissionList.value = data.items;
         });
 
         setCreateOrModifyModalProps({
@@ -102,42 +106,56 @@
       });
 
       function convertPermissionToTree(permissionArray: any) {
-        const result = [];
+        let result = [];
         const permissionMap = new Map();
-        const PARENT_GROUP_INDEX = 0;
-        const GROUP_INDEX = 1;
-        const OPERATION_INDEX = 2;
         const SPLIT_CHAR = ':';
-        const LABLE_SPLIT_CHAR = '_';
         for (let i = 0; i < permissionArray.length; i++) {
           const permission = permissionArray[i];
           const splitPermission = permission.split(SPLIT_CHAR);
-          const parentGroup = splitPermission[PARENT_GROUP_INDEX];
-          const group = splitPermission[GROUP_INDEX];
-          const operation = splitPermission[OPERATION_INDEX];
-          const key = parentGroup + SPLIT_CHAR + group;
-          const parentGroupLable = parentGroup + LABLE_SPLIT_CHAR + group;
-          if (permissionMap.has(key)) {
-            // skip
-          } else {
-            permissionMap.set(key, {
-              key: key,
-              title:
-                t('permission.' + parentGroupLable) === parentGroupLable
-                  ? parentGroupLable
-                  : t('permission.' + parentGroupLable),
-              children: [],
-            });
+          let tempPermission = '';
+          for (let n = 0; n < splitPermission.length; n++) {
+            let splitItem = splitPermission[n];
+            let previousItem = tempPermission;
+            if (n == 0) {
+              tempPermission += splitItem;
+            } else {
+              tempPermission += SPLIT_CHAR + splitItem;
+            }
+            if (permissionMap.has(tempPermission)) {
+              // skip
+            } else {
+              permissionMap.set(tempPermission, {
+                key: tempPermission,
+                title:
+                  t('permission.' + splitItem) === 'permission.' + splitItem
+                    ? tempPermission
+                    : t('permission.' + splitItem),
+                children: [],
+              });
+              if (n == 0) {
+                result.push(permissionMap.get(tempPermission));
+              }
+            }
+            if (n == 0) {
+              //skip
+            } else {
+              if (
+                permissionMap.get(previousItem).children.includes(permissionMap.get(tempPermission))
+              ) {
+                //skip
+              } else {
+                permissionMap.get(previousItem).children.push(permissionMap.get(tempPermission));
+              }
+            }
           }
-          permissionMap.get(key).children.push({
-            key: permission,
-            title:
-              t('permission.' + operation) === operation ? operation : t('permission.' + operation),
-            api: permission,
-          });
         }
-        for (const key of permissionMap.keys()) {
-          result.push(permissionMap.get(key));
+        if (result.length == 1) {
+          //not show root
+          let rootChildren = result[0].children;
+          result = [];
+          for (let i = 0; i < rootChildren.length; i++) {
+            result.push(rootChildren[i]);
+          }
         }
         return result;
       }
@@ -168,6 +186,7 @@
           formConfig: {
             initData: {
               permissions: permissionList,
+              allPermissionList,
             },
             confirmCallback: createRecord,
           },
@@ -184,6 +203,7 @@
           formConfig: {
             initData: {
               permissions: permissionList,
+              allPermissionList,
             },
             confirmCallback: updateRecord,
           },
@@ -193,6 +213,18 @@
 
       function createRecord(formData: CreateRoleRecordParams, closeForm: Function) {
         setCreateOrModifyModalProps({ loading: true });
+        if (!formData.permissions) {
+          formData.permissions = [];
+        }
+        const param: CreateRoleRecordParams = toRaw(formData);
+        const targetPermissions: string[] = [];
+        for (let i = 0; i < param.permissions.length; i++) {
+          const permission = param.permissions[i];
+          if (allPermissionList.value.includes(permission)) {
+            targetPermissions.push(permission);
+          }
+        }
+        param.permissions = targetPermissions;
         createRoleRecord(toRaw(formData)).then(
           () => {
             setCreateOrModifyModalProps({ loading: false });
@@ -203,7 +235,7 @@
           () => {
             setCreateOrModifyModalProps({ loading: false });
             error(t('sys.role.modal.createContent.failedContent'));
-          }
+          },
         );
       }
 
@@ -225,7 +257,7 @@
               () => {
                 setLoading(false);
                 error(t('sys.role.table.deleteContent.failedContent'));
-              }
+              },
             );
           },
         });
@@ -233,7 +265,19 @@
 
       function updateRecord(formData: UpdateRoleRecordParams, closeForm: Function) {
         setCreateOrModifyModalProps({ loading: true });
-        updateRoleRecord(toRaw(formData)).then(
+        if (!formData.permissions) {
+          formData.permissions = [];
+        }
+        const param: UpdateRoleRecordParams = toRaw(formData);
+        const targetPermissions: string[] = [];
+        for (let i = 0; i < param.permissions.length; i++) {
+          const permission = param.permissions[i];
+          if (allPermissionList.value.includes(permission)) {
+            targetPermissions.push(permission);
+          }
+        }
+        param.permissions = targetPermissions;
+        updateRoleRecord(param).then(
           () => {
             setCreateOrModifyModalProps({ loading: false });
             success(t('sys.role.modal.modifyContent.successContent'));
@@ -243,7 +287,7 @@
           () => {
             setCreateOrModifyModalProps({ loading: false });
             error(t('sys.role.modal.modifyContent.failedContent'));
-          }
+          },
         );
       }
 
@@ -288,8 +332,3 @@
     },
   });
 </script>
-<style lang="less">
-  .basic-table {
-    padding: 0;
-  }
-</style>

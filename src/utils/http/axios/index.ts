@@ -146,6 +146,7 @@ const transform: AxiosTransform = {
         } else if (errorMessageMode === 'message') {
           createMessage.error(errMessage);
         }
+        error.message = errMessage;
         return Promise.reject(error);
       }
     } catch (error) {
@@ -154,7 +155,7 @@ const transform: AxiosTransform = {
 
     checkStatus(error?.response?.status, msg, errorMessageMode);
     //针对400添加额外错误信息
-    if(error?.response?.status == 400){
+    if (error?.response?.status == 400) {
       error.message = msg;
     }
     return Promise.reject(error);
