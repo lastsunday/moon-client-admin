@@ -64,6 +64,7 @@ specifiers:
   moment: ^2.29.1
   npm-run-all: ^4.1.5
   nprogress: ^0.2.0
+  numeral: ^2.0.6
   path-to-regexp: ^6.2.0
   pinia: 2.0.0
   postcss: ^8.3.11
@@ -119,6 +120,7 @@ dependencies:
   mockjs: 1.1.0
   moment: 2.29.1
   nprogress: 0.2.0
+  numeral: registry.npmmirror.com/numeral/2.0.6
   path-to-regexp: 6.2.0
   pinia: 2.0.0_typescript@4.4.4+vue@3.2.21
   qrcode: 1.4.4
@@ -12115,6 +12117,12 @@ packages:
     dependencies:
       path-key: registry.npmmirror.com/path-key/2.0.1
     dev: true
+
+  registry.npmmirror.com/numeral/2.0.6:
+    resolution: {integrity: sha1-StCAk21EPCVhrtnyGX7//iX05QY=, registry: http://r.npm.taobao.org/, tarball: https://registry.npmmirror.com/numeral/download/numeral-2.0.6.tgz}
+    name: numeral
+    version: 2.0.6
+    dev: false
 
   registry.npmmirror.com/object-assign/4.1.1:
     resolution: {integrity: sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=, registry: http://r.npm.taobao.org/, tarball: https://registry.npmmirror.com/object-assign/download/object-assign-4.1.1.tgz}

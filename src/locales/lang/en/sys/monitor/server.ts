@@ -1,49 +1,49 @@
 export default {
-  table_cpu: {
+  cpu: {
     title: 'CPU',
-    columns: {
-      attributes: 'Attributes',
-      value: 'Value',
-    },
+    cpuNum: 'Cpu Core Number',
+    free: 'Free Usage',
+    total: 'Total Usage',
+    used: 'User Usage',
+    wait: 'Idel',
+    sys: 'Sys Usage',
   },
-  table_ram: {
+  mem: {
     title: 'RAM',
-    columns: {
-      attributes: 'Attributes',
-      ram: 'RAM',
-      jvm: 'JVM',
-    },
+    total: 'Total',
+    used: 'Used',
+    free: 'Free',
+    usage: 'Usage',
   },
-  table_diskStatus: {
+  disk: {
     title: 'Disk Status',
-    columns: {
-      driveLetterPath: 'DriveLetterPath',
-      fileSystem: 'FileSystem',
-      driveLetterType: 'DriveLetterType',
-      totalSize: 'TotalSize',
-      availableSize: 'AvailableSize',
-      usedSize: 'UsedSize',
-      usedPercent: 'UsedPercent',
-    },
+    driveLetterPath: 'DriveLetterPath',
+    fileSystem: 'FileSystem',
+    driveLetterType: 'DriveLetterType',
+    totalSize: 'TotalSize',
+    availableSize: 'AvailableSize',
+    usedSize: 'UsedSize',
+    usedPercent: 'UsedPercent',
   },
-  description_serverInfo: {
+  server: {
     title: 'Server Information',
-    schema: {
-      serverName: 'ServerName',
-      operatingSystem: 'OperatingSystem',
-      serverIP: 'ServerIP',
-      systemStructure: 'SystemStructure',
-    },
+    serverName: 'ServerName',
+    operatingSystem: 'OperatingSystem',
+    serverIP: 'ServerIP',
+    systemStructure: 'SystemStructure',
+    userDir: 'UserDir',
   },
-  description_jvmInfo: {
+  jvm: {
     title: 'JVM Information',
-    schema: {
-      javaName: 'JavaName',
-      javaVersion: 'JavaVersion',
-      startTime: 'StartTime',
-      runningTime: 'RunningTime',
-      installationPath: 'InstallationPath',
-      projectPath: 'ProjectPath',
-    },
+    javaName: 'JavaName',
+    javaVersion: 'JavaVersion',
+    startTime: 'StartTime',
+    installationPath: 'InstallationPath',
+    runTime: 'RunningTime',
+    total: 'Total',
+    max: 'Max',
+    free: 'Free',
+    used: 'Used',
+    usage: 'Usage',
   },
 };

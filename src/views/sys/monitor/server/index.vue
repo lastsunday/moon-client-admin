@@ -1,185 +1,286 @@
 <template>
   <PageWrapper>
     <div class="row bottom">
-      <BasicTable @register="register_CPU" class="right" />
-      <BasicTable @register="register_RAM" />
+      <Description @register="registerCpu" class="right" />
+      <Description @register="registerMem" class="mem" />
     </div>
-    <Description @register="register_serverInfo" class="bottom" />
-    <Description @register="register_JVMInfo" class="bottom" />
-    <BasicTable @register="register_diskStatus" class="bottom" />
+    <Description @register="registerServerInfo" class="bottom" />
+    <Description @register="registerJvmInfo" class="bottom" />
+    <BasicTable @register="registerDiskStatus" class="bottom" />
   </PageWrapper>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue';
-  import { BasicTable, useTable } from '/@/components/Table';
+  import { defineComponent, ref } from 'vue';
+  import { BasicColumn, BasicTable, useTable } from '/@/components/Table';
   import { Description, DescItem, useDescription } from '/@/components/Description/index';
   import { PageWrapper } from '/@/components/Page';
   import { useI18n } from '/@/hooks/web/useI18n';
-  import {
-    getServerInfo,
-    getJVMInfo,
-    getCPUInfo,
-    getRAMInfo,
-    getDiskStatusInfo,
-  } from '/@/api/sys/monitor/server';
+  import { getMonitorServer } from '/@/api/sys/monitor/server';
+  import { Cpu, Jvm, Mem, Sys, SysFile } from '/@/api/sys/model/monitorModel';
+  import numeral from 'numeral';
+  import { Loading, useLoading } from '/@/components/Loading';
+
   export default defineComponent({
     name: 'Server',
-    components: { BasicTable, Description, PageWrapper },
+    components: { BasicTable, Description, PageWrapper, Loading },
     setup() {
       const { t } = useI18n();
-      const columns_CPU = [
+      const [openFullLoading, closeFullLoading] = useLoading({
+        tip: t('common.loadingText'),
+      });
+      const schemaCPU = [
         {
-          title: t('sys.monitor.server.table_cpu.columns.attributes'),
-          dataIndex: 'attributes',
+          field: 'cpuNum',
+          label: t('sys.monitor.server.cpu.cpuNum'),
         },
         {
-          title: t('sys.monitor.server.table_cpu.columns.value'),
-          dataIndex: 'value',
-        },
-      ];
-      const columns_RAM = [
-        {
-          title: t('sys.monitor.server.table_ram.columns.attributes'),
-          dataIndex: 'attributes',
+          field: 'free',
+          label: t('sys.monitor.server.cpu.free'),
         },
         {
-          title: t('sys.monitor.server.table_ram.columns.ram'),
-          dataIndex: 'ram',
+          field: 'sys',
+          label: t('sys.monitor.server.cpu.sys'),
         },
         {
-          title: t('sys.monitor.server.table_ram.columns.jvm'),
-          dataIndex: 'jvm',
-        },
-      ];
-      const columns_diskStatus = [
-        {
-          title: t('sys.monitor.server.table_diskStatus.columns.driveLetterPath'),
-          dataIndex: 'driveLetterPath',
+          field: 'total',
+          label: t('sys.monitor.server.cpu.total'),
         },
         {
-          title: t('sys.monitor.server.table_diskStatus.columns.fileSystem'),
-          dataIndex: 'fileSystem',
+          field: 'used',
+          label: t('sys.monitor.server.cpu.used'),
         },
         {
-          title: t('sys.monitor.server.table_diskStatus.columns.driveLetterType'),
-          dataIndex: 'driveLetterType',
-        },
-        {
-          title: t('sys.monitor.server.table_diskStatus.columns.totalSize'),
-          dataIndex: 'totalSize',
-        },
-        {
-          title: t('sys.monitor.server.table_diskStatus.columns.availableSize'),
-          dataIndex: 'availableSize',
-        },
-        {
-          title: t('sys.monitor.server.table_diskStatus.columns.usedSize'),
-          dataIndex: 'usedSize',
-        },
-        {
-          title: t('sys.monitor.server.table_diskStatus.columns.usedPercent'),
-          dataIndex: 'usedPercent',
+          field: 'wait',
+          label: t('sys.monitor.server.cpu.wait'),
         },
       ];
-      const schema_serverInfo: DescItem[] = [
+      const cpuInfo = ref<Cpu>();
+      const [registerCpu] = useDescription({
+        title: t('sys.monitor.server.cpu.title'),
+        data: cpuInfo,
+        column: 2,
+        schema: schemaCPU,
+      });
+      const schemaMem = [
         {
-          field: 'serverName',
-          label: t('sys.monitor.server.description_serverInfo.schema.serverName'),
+          field: 'total',
+          label: t('sys.monitor.server.mem.total'),
+          render: (curVal, data) => {
+            return `${numeral(curVal).format('0 ib')}`;
+          },
         },
         {
-          field: 'operatingSystem',
-          label: t('sys.monitor.server.description_serverInfo.schema.operatingSystem'),
+          field: 'used',
+          label: t('sys.monitor.server.mem.used'),
+          render: (curVal, data) => {
+            return `${numeral(curVal).format('0 ib')}`;
+          },
         },
         {
-          field: 'serverIP',
-          label: t('sys.monitor.server.description_serverInfo.schema.serverIP'),
+          field: 'free',
+          label: t('sys.monitor.server.mem.free'),
+          render: (curVal, data) => {
+            return `${numeral(curVal).format('0 ib')}`;
+          },
         },
         {
-          field: 'systemStructure',
-          label: t('sys.monitor.server.description_serverInfo.schema.systemStructure'),
+          field: 'usage',
+          label: t('sys.monitor.server.mem.usage'),
+          render: (curVal, data) => {
+            return `${curVal}%`;
+          },
         },
       ];
-      const schema_JVMInfo: DescItem[] = [
+      const memInfo = ref<Mem>();
+      const [registerMem] = useDescription({
+        title: t('sys.monitor.server.mem.title'),
+        data: memInfo,
+        schema: schemaMem,
+      });
+      const columnsDiskStatus: BasicColumn[] = [
         {
-          field: 'javaName',
-          label: t('sys.monitor.server.description_jvmInfo.schema.javaName'),
+          title: t('sys.monitor.server.disk.driveLetterPath'),
+          dataIndex: 'dirName',
         },
         {
-          field: 'javaVersion',
-          label: t('sys.monitor.server.description_jvmInfo.schema.javaVersion'),
+          title: t('sys.monitor.server.disk.fileSystem'),
+          dataIndex: 'typeName',
+        },
+        {
+          title: t('sys.monitor.server.disk.driveLetterType'),
+          dataIndex: 'sysTypeName',
+        },
+        {
+          title: t('sys.monitor.server.disk.totalSize'),
+          dataIndex: 'total',
+          format: (text, record, index) => {
+            return `${numeral(text).format('0 ib')}`;
+          },
+        },
+        {
+          title: t('sys.monitor.server.disk.availableSize'),
+          dataIndex: 'free',
+          format: (text, record, index) => {
+            return `${numeral(text).format('0 ib')}`;
+          },
+        },
+        {
+          title: t('sys.monitor.server.disk.usedSize'),
+          dataIndex: 'used',
+          format: (text, record, index) => {
+            return `${numeral(text).format('0 ib')}`;
+          },
+        },
+        {
+          title: t('sys.monitor.server.disk.usedPercent'),
+          dataIndex: 'usage',
+          format: (text, record, index) => {
+            return `${text}%`;
+          },
+        },
+      ];
+      const diskInfo = ref<SysFile[]>();
+      const [registerDiskStatus] = useTable({
+        title: t('sys.monitor.server.disk.title'),
+        dataSource: diskInfo,
+        columns: columnsDiskStatus,
+        pagination: false,
+        canResize: false,
+        striped: false,
+        ellipsis: false,
+        showIndexColumn: false,
+      });
+
+      const schemaServerInfo: DescItem[] = [
+        {
+          field: 'computerName',
+          label: t('sys.monitor.server.server.serverName'),
+        },
+        {
+          field: 'osName',
+          label: t('sys.monitor.server.server.operatingSystem'),
+        },
+        {
+          field: 'computerIp',
+          label: t('sys.monitor.server.server.serverIP'),
+        },
+        {
+          field: 'osArch',
+          label: t('sys.monitor.server.server.systemStructure'),
+        },
+        {
+          field: 'userDir',
+          label: t('sys.monitor.server.server.userDir'),
+        },
+      ];
+      const sysInfo = ref<Sys>();
+      const [registerServerInfo] = useDescription({
+        title: t('sys.monitor.server.server.title'),
+        data: sysInfo,
+        column: 2,
+        schema: schemaServerInfo,
+      });
+
+      const schemaJvmInfo: DescItem[] = [
+        {
+          field: 'name',
+          label: t('sys.monitor.server.jvm.javaName'),
+        },
+        {
+          field: 'version',
+          label: t('sys.monitor.server.jvm.javaVersion'),
         },
         {
           field: 'startTime',
-          label: t('sys.monitor.server.description_jvmInfo.schema.startTime'),
+          label: t('sys.monitor.server.jvm.startTime'),
         },
         {
-          field: 'runningTime',
-          label: t('sys.monitor.server.description_jvmInfo.schema.runningTime'),
+          field: 'total',
+          label: t('sys.monitor.server.jvm.total'),
+          render: (curVal, data) => {
+            return `${numeral(curVal).format('0 ib')}`;
+          },
         },
         {
-          field: 'installationPath',
-          label: t('sys.monitor.server.description_jvmInfo.schema.installationPath'),
-          span: 2,
+          field: 'max',
+          label: t('sys.monitor.server.jvm.max'),
+          render: (curVal, data) => {
+            return `${numeral(curVal).format('0 ib')}`;
+          },
         },
         {
-          field: 'projectPath',
-          label: t('sys.monitor.server.description_jvmInfo.schema.projectPath'),
-          span: 2,
+          field: 'runTime',
+          label: t('sys.monitor.server.jvm.runTime'),
+          render: (curVal, data) => {
+            return `${numeral(curVal / 1000).format('00:00:00')}`;
+          },
+        },
+        {
+          field: 'free',
+          label: t('sys.monitor.server.jvm.free'),
+          render: (curVal, data) => {
+            return `${numeral(curVal).format('0 ib')}`;
+          },
+        },
+        {
+          field: 'used',
+          label: t('sys.monitor.server.jvm.used'),
+          render: (curVal, data) => {
+            return `${numeral(curVal).format('0 ib')}`;
+          },
+        },
+        {
+          field: 'usage',
+          label: t('sys.monitor.server.jvm.usage'),
+          render: (curVal, data) => {
+            return `${curVal}%`;
+          },
+        },
+        {
+          field: 'home',
+          label: t('sys.monitor.server.jvm.installationPath'),
         },
       ];
-      const [register_CPU] = useTable({
-        title: t('sys.monitor.server.table_cpu.title'),
-        dataSource: getCPUInfo(),
-        columns: columns_CPU,
-        pagination: false,
-        canResize: false,
-        striped: false,
-        ellipsis: false,
-        showIndexColumn: false,
-      });
-      const [register_RAM] = useTable({
-        title: t('sys.monitor.server.table_ram.title'),
-        dataSource: getRAMInfo(),
-        columns: columns_RAM,
-        pagination: false,
-        canResize: false,
-        striped: false,
-        ellipsis: false,
-        showIndexColumn: false,
-      });
-      const [register_diskStatus] = useTable({
-        title: t('sys.monitor.server.table_diskStatus.title'),
-        dataSource: getDiskStatusInfo(),
-        columns: columns_diskStatus,
-        pagination: false,
-        canResize: false,
-        striped: false,
-        ellipsis: false,
-        showIndexColumn: false,
-      });
-      const [register_serverInfo] = useDescription({
-        title: t('sys.monitor.server.description_serverInfo.title'),
-        data: getServerInfo(),
+      const jvmInfo = ref<Jvm>();
+      const [registerJvmInfo] = useDescription({
+        title: t('sys.monitor.server.jvm.title'),
+        data: jvmInfo,
         column: 2,
-        schema: schema_serverInfo,
+        schema: schemaJvmInfo,
       });
-      const [register_JVMInfo] = useDescription({
-        title: t('sys.monitor.server.description_jvmInfo.title'),
-        data: getJVMInfo(),
-        column: 2,
-        schema: schema_JVMInfo,
-      });
-      return {
-        register_CPU,
-        register_RAM,
-        register_serverInfo,
-        register_JVMInfo,
-        register_diskStatus,
+
+      const refreshData = async () => {
+        setTimeout(() => {
+          openFullLoading();
+        }, 0);
+        try {
+          const monitorServerModel = await getMonitorServer();
+          const serverInfo = monitorServerModel.serverInfo;
+          cpuInfo.value = serverInfo.cpu;
+          memInfo.value = serverInfo.mem;
+          diskInfo.value = serverInfo.sysFiles;
+          sysInfo.value = serverInfo.sys;
+          jvmInfo.value = serverInfo.jvm;
+        } finally {
+          closeFullLoading();
+        }
       };
+
+      return {
+        registerCpu,
+        registerMem,
+        registerDiskStatus,
+        registerServerInfo,
+        registerJvmInfo,
+        refreshData,
+      };
+    },
+    mounted() {
+      this.refreshData();
     },
   });
 </script>
-<style lang="less">
+<style lang="less" scope>
   .row {
     display: flex;
     flex-flow: row nowrap;
@@ -191,5 +292,8 @@
 
   .right {
     margin-right: 10px;
+  }
+  .mem {
+    flex: 1;
   }
 </style>

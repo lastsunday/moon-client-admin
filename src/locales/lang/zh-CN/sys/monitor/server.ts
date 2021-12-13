@@ -1,49 +1,49 @@
 export default {
-  table_cpu: {
-    title: 'CPU',
-    columns: {
-      attributes: '属性',
-      value: '值',
-    },
+  cpu: {
+    title: '处理器',
+    cpuNum: '核心数',
+    free: '空闲率',
+    total: '总使用率',
+    used: '用户使用率',
+    wait: '等待率',
+    sys: '系统使用率',
   },
-  table_ram: {
+  mem: {
     title: '内存',
-    columns: {
-      attributes: '属性',
-      ram: 'RAM',
-      jvm: 'JVM',
-    },
+    total: '总计',
+    used: '已使用',
+    free: '剩余内存',
+    usage: '使用比率',
   },
-  table_diskStatus: {
+  disk: {
     title: '磁盘状态',
-    columns: {
-      driveLetterPath: '盘符路径',
-      fileSystem: '文件系统',
-      driveLetterType: '盘符类型',
-      totalSize: '总大小',
-      availableSize: '可用大小',
-      usedSize: '已用大小',
-      usedPercent: '已用百分比',
-    },
+    driveLetterPath: '盘符路径',
+    fileSystem: '文件系统',
+    driveLetterType: '盘符类型',
+    totalSize: '总大小',
+    availableSize: '可用大小',
+    usedSize: '已用大小',
+    usedPercent: '已用百分比',
   },
-  description_serverInfo: {
+  server: {
     title: '服务器信息',
-    schema: {
-      serverName: '服务器名称',
-      operatingSystem: '操作系统',
-      serverIP: '服务器IP',
-      systemStructure: '系统架构',
-    },
+    serverName: '服务器名称',
+    operatingSystem: '操作系统',
+    serverIP: '服务器IP',
+    systemStructure: '系统架构',
+    userDir: '用户目录',
   },
-  description_jvmInfo: {
+  jvm: {
     title: 'Java虚拟机信息',
-    schema: {
-      javaName: 'Java名称',
-      javaVersion: 'Java版本',
-      startTime: '启动时间',
-      runningTime: '运行时长',
-      installationPath: '安装路径',
-      projectPath: '项目路径',
-    },
+    javaName: 'Java名称',
+    javaVersion: 'Java版本',
+    startTime: '启动时间',
+    installationPath: '安装路径',
+    runTime: '运行时长',
+    total: 'JVM占用的内存总数',
+    max: 'JVM最大可用内存总数',
+    free: 'JVM空闲内存',
+    used: '已使用',
+    usage: '使用比率',
   },
 };
