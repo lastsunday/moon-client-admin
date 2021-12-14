@@ -17,5 +17,7 @@ export default {
 
   light: '亮色主题',
   dark: '黑暗主题',
+  
   version: '版本',
+  functionNotImplementYet: '功能暂未完成',
 };

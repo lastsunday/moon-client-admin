@@ -17,5 +17,7 @@ export default {
 
   light: 'Light',
   dark: 'Dark',
+
   version: 'Version',
+  functionNotImplementYet: 'Function not implement yet',
 };
