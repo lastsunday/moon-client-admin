@@ -7,18 +7,19 @@
           {{ t('sys.log.system.table.action.batchDownload') }}
         </a-button>
       </template>
-      <template #action="record">
+      <template #action="data">
         <TableAction
           :actions="[
             {
               label: t('sys.log.system.table.action.consult'),
               icon: 'mdi:file-eye-outline',
-              onClick: showConsultModal.bind(null, record),
+              onClick: showConsultModal.bind(null, data),
+              disabled: !data.record.name.endsWith('log'),
             },
             {
               label: t('sys.log.system.table.action.download'),
               icon: 'feather:download',
-              onClick: downloadLogFile.bind(null, record),
+              onClick: downloadLogFile.bind(null, data),
             },
           ]"
         />
@@ -36,14 +37,14 @@
   import { list, get } from '/@/api/sys/log/system';
   import { downloadByData } from '/@/utils/file/download';
   import ConsultModal from './ConsultModal.vue';
-  import { useMessage } from '/@/hooks/web/useMessage';
+  import numeral from 'numeral';
+  import { formatToDateTime } from '/@/utils/dateUtil';
 
   export default defineComponent({
     name: 'System',
     components: { PageWrapper, TableAction, BasicTable, ConsultModal },
     setup() {
       const { t } = useI18n();
-      const { notification } = useMessage();
 
       const columns = [
         {
@@ -53,14 +54,24 @@
         {
           title: t('sys.log.system.table.columns.updateDate'),
           dataIndex: 'modifyDate',
+          format: (text, record, index) => {
+            return formatToDateTime(text);
+          },
         },
         {
           title: t('sys.log.system.table.columns.size'),
           dataIndex: 'length',
+          sorter: (a, b) => a.length - b.length,
+          format: (text, record, index) => {
+            return `${numeral(text).format('0 ib')}`;
+          },
         },
         {
           title: t('sys.log.system.table.columns.createDate'),
           dataIndex: 'createDate',
+          format: (text, record, index) => {
+            return formatToDateTime(text);
+          },
         },
       ];
 
@@ -85,16 +96,13 @@
       });
 
       function batchDownloadLogFile() {
-        notification.warn({
-          message: t('common.functionNotImplementYet'),
-          duration: 3,
-        });
-        // TODO implement function
         const downloadLogFiles = getSelectRows();
         if (downloadLogFiles.length > 0) {
           for (let i = 0; i < downloadLogFiles.length; i++) {
             const record = toRaw(downloadLogFiles[i]);
-            downloadByData(record.logContent, record.name + '.txt');
+            get({ id: record.id }).then((res) => {
+              downloadByData(res, record.name);
+            });
           }
           clearSelectedRowKeys();
         } else {
@@ -107,24 +115,27 @@
         get({ id: record.id }).then((res) => {
           downloadByData(res, record.name);
         });
-        //TODO handle error
       }
 
       function showConsultModal(data) {
-        notification.warn({
-          message: t('common.functionNotImplementYet'),
-          duration: 3,
+        let record = data.record;
+        get({ id: record.id }).then((res) => {
+          setConsultModalProps({
+            title: record.name,
+            width: 700,
+            minHeight: 650,
+            useWrapper: true,
+            defaultFullscreen: true,
+            showCancelBtn: false,
+            showOkBtn: false,
+          });
+          var reader = new FileReader();
+          reader.readAsText(res, 'utf-8');
+          reader.onload = function (e) {
+            data.record.fileData = reader.result;
+            openConsultModal(true, data);
+          };
         });
-        // TODO implement function
-        setConsultModalProps({
-          title: t('sys.log.system.modal.title'),
-          width: 700,
-          minHeight: 650,
-          showCancelBtn: false,
-          showOkBtn: false,
-          useWrapper: false,
-        });
-        openConsultModal(true, data);
       }
       return {
         t,
@@ -137,4 +148,3 @@
     },
   });
 </script>
-<style lang="less"></style>
