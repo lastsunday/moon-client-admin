@@ -7,9 +7,6 @@ cache:
 build:
   stage: build
   script:
-    - sed -i "s#\${APP_VERSION}#$CI_COMMIT_REF_NAME#g" src/assets/app_info.js
-    - sed -i "s#\${APP_BUILD_DATE}#$CI_COMMIT_TIMESTAMP#g" src/assets/app_info.js
-    - cat src/assets/app_info.js
     - curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
     - pnpm install
     - npm run build

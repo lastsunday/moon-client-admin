@@ -56,6 +56,10 @@
       </div>
     </div>
   </div>
+  <div class="compile">
+    <div>{{t('common.version')}}:{{version}}</div>
+    <div>{{lastBuildTime}}</div>
+  </div>
 </template>
 <script lang="ts" setup>
   import { computed } from 'vue';
@@ -66,6 +70,9 @@
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useLocaleStore } from '/@/store/modules/locale';
+  const { pkg, lastBuildTime } = __APP_INFO__;
+
+  const { version } = pkg;
 
   defineProps({
     sessionTimeout: {
@@ -219,5 +226,12 @@
       font-size: 12px;
       color: @text-color-secondary;
     }
+  }
+  .compile{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    color:white;
+    font-size: 12px;
   }
 </style>
