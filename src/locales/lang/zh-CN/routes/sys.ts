@@ -8,5 +8,5 @@ export default {
   onlineUser: '在线用户',
   serverMonitor: '服务器监控',
   systemLog: '系统日志',
-  loginLog: '登录日志',
+  operationLog: '操作日志',
 };

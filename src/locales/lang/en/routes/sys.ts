@@ -8,5 +8,5 @@ export default {
   onlineUser: 'Online User',
   serverMonitor: 'Server Monitor',
   systemLog: 'System Log',
-  loginLog: 'Login Log',
+  operationLog: 'Operation Log',
 };

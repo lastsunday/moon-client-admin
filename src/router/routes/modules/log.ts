@@ -14,12 +14,13 @@ const userManagement: AppRouteModule = {
   },
   children: [
     {
-      path: 'logininfo',
-      name: 'logininfo',
-      component: () => import('/@/views/sys/log/logininfo/index.vue'),
+      path: 'operation',
+      name: 'operation',
+      component: () => import('/@/views/sys/log/operation/index.vue'),
       meta: {
-        title: t('routes.sys.loginLog'),
+        title: t('routes.sys.operationLog'),
         icon: 'uil:file-edit-alt',
+        permissions: ['system:log:list'],
       },
     },
     {
